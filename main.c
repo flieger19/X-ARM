@@ -1,6 +1,6 @@
 //___FILEHEADER___
 
-#include "___FILEBASENAME___.h"
+#include "___VARIABLE_MCPU___.h"
 
 int counter = 0;
 int offset = 5;
