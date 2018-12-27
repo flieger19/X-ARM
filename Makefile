@@ -72,24 +72,6 @@ DEBUG =
 #     For a directory that has spaces, enclose it in quotes.
 EXTRAINCDIRS =
 
-
-# Compiler flag to set the C Standard level.
-#     c89   = "ANSI" C
-#     gnu89 = c89 plus GCC extensions
-#     c99   = ISO C99 standard (not yet fully implemented)
-#     gnu99 = c99 plus GCC extensions
-CSTANDARD = -std=gnu99
-
-
-# Place -D or -U options here
-CDEFS =
-
-
-# Place -I options here
-CINCS =
-
-
-
 #---------------- Compiler Options ----------------
 #  -g*:          generate debugging information
 #  -O*:          optimization level
@@ -98,11 +80,9 @@ CINCS =
 #  -Wa,...:      tell GCC to pass this to the assembler.
 #    -adhlns...: create assembler listing
 CFLAGS = -g$(DEBUG)
-CFLAGS += $(CDEFS) $(CINCS)
 CFLAGS += -O$(OPT)
 CFLAGS += -mcpu=cortex-m0 -mthumb
 CFLAGS += -Wall
-CFLAGS += -Wa,-adhlns=$(addprefix $(OBJDIR)/,$(<:.c=.lst))
 CFLAGS += -I$(HEADER_SEARCH_PATHS)
 CFLAGS += $(patsubst %,-I%,$(EXTRAINCDIRS))
 CFLAGS += $(CSTANDARD)
@@ -117,7 +97,7 @@ CFLAGS += -DSTM32F0XX_MD -DUSE_STDPERIPH_DRIVER -DUSE_FULL_ASSERT
 #             files -- see avr-libc docs [FIXME: not yet described there]
 #  -listing-cont-lines: Sets the maximum number of continuation lines of hex 
 #       dump that will be displayed for a given single line of source input.
-ASFLAGS = -Wa,-adhlns=$(addprefix $(OBJDIR)/,$(<:.S=.lst)),-g,--listing-cont-lines=100
+ASFLAGS =
 
 #---------------- Linker Options ----------------
 #  -Wl,...:     tell GCC to pass this to linker.
@@ -127,7 +107,7 @@ LDSCRIPT = LDScript.ld
 LDFLAGS+= -T$(LDSCRIPT)
 LDFLAGS+= -mthumb -mcpu=cortex-m0
 LDFLAGS+= -L$(LIBRARY_SEARCH_PATHS)
-LDFLAGS+= $(patsubst %,-L%,$(LIBRARY_SEARCH_PATHS))
+LDFLAGS+= $(patsubst %,-L%,$(EXTRAINCDIRS))
 LDFLAGS+= $(OTHER_LINKER_FLAGS)
 
 
@@ -150,14 +130,6 @@ COPY = cp
 
 # Define all object files.
 OBJ = $(addprefix $(OBJDIR)/,$(SRC:.c=.o)) $(addprefix $(OBJDIR)/,$(ASRC:.S=.o))
-
-# Define all listing files.
-LST = $(addprefix $(OBJDIR)/,$(SRC:.c=.lst)) $(addprefix $(OBJDIR)/,$(ASRC:.S=.lst))
-
-
-# Compiler flags to generate dependency files.
-GENDEPFLAGS = -M
-
 
 # Combine all necessary flags and optional flags.
 # Add target processor to flags.
