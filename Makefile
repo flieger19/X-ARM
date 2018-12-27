@@ -39,21 +39,11 @@
 #----------------------------------------------------------------------------
 
 #include conf.mk
-# MCU name
-MCU = ___VARIABLE_MCU___
+# MICROCONTROLLER name
+MICROCONTROLLER = ___VARIABLE_MICROCONTROLLER___
 
-
-# Processor frequency.
-#     This will define a symbol, F_CPU, in all source code files equal to the 
-#     processor frequency. You can then use this symbol in your source code to 
-#     calculate timings. Do NOT tack on a 'UL' at the end, this will be done
-#     automatically to create a 32-bit value in your source code.
-F_CPU = ___VARIABLE_F_CPU___
-
-AVRDUDE_PROGRAMMER = ___VARIABLE_PROGRAMMER___
-
-# com1 = serial port. Use lpt1 to connect to parallel port.
-AVRDUDE_PORT = /dev/___VARIABLE_SERIAL_PORT___    # programmer connected to serial device
+# name of the link programmer
+LINK_PROGRAMMER = ___VARIABLE_PROGRAMMER___
 
 # Output format. (can be srec, ihex, binary)
 FORMAT = ihex
@@ -81,21 +71,21 @@ ASRC = $(wildcard *.S)
 # Optimization level, can be [0, 1, 2, 3, s]. 
 #     0 = turn off optimization. s = optimize for size.
 #     (Note: 3 is not always the best optimization level. See avr-libc FAQ.)
-OPT = s
+OPT = 0
 
 
 # Debugging format.
 #     Native formats for AVR-GCC's -g are dwarf-2 [default] or stabs.
 #     AVR Studio 4.10 requires dwarf-2.
 #     AVR [Extended] COFF format requires stabs, plus an avr-objcopy run.
-DEBUG = stabs
+DEBUG =
 
 
 # List any extra directories to look for include files here.
 #     Each directory must be seperated by a space.
 #     Use forward slashes for directory separators.
 #     For a directory that has spaces, enclose it in quotes.
-EXTRAINCDIRS = 
+EXTRAINCDIRS =
 
 
 # Compiler flag to set the C Standard level.
@@ -107,7 +97,7 @@ CSTANDARD = -std=gnu99
 
 
 # Place -D or -U options here
-CDEFS = -DF_CPU=$(F_CPU)UL
+CDEFS =
 
 
 # Place -I options here
@@ -125,13 +115,13 @@ CINCS =
 CFLAGS = -g$(DEBUG)
 CFLAGS += $(CDEFS) $(CINCS)
 CFLAGS += -O$(OPT)
-CFLAGS += -funsigned-char -funsigned-bitfields -fpack-struct -fshort-enums
-CFLAGS += -Wall -Wstrict-prototypes
+CFLAGS += -mcpu=cortex-m0 -mthumb
+CFLAGS += -Wall
 CFLAGS += -Wa,-adhlns=$(addprefix $(OBJDIR)/,$(<:.c=.lst))
+CFLAGS += -I$(HEADER_SEARCH_PATHS)
 CFLAGS += $(patsubst %,-I%,$(EXTRAINCDIRS))
 CFLAGS += $(CSTANDARD)
-CFLAGS += -gstabs
-CFLAGS += -gstrict-dwarf
+CFLAGS += -DSTM32F0XX_MD -DUSE_STDPERIPH_DRIVER -DUSE_FULL_ASSERT
 
 #---------------- Assembler Options ----------------
 #  -Wa,...:   tell GCC to pass this to the assembler.
@@ -142,7 +132,7 @@ CFLAGS += -gstrict-dwarf
 #             files -- see avr-libc docs [FIXME: not yet described there]
 #  -listing-cont-lines: Sets the maximum number of continuation lines of hex 
 #       dump that will be displayed for a given single line of source input.
-ASFLAGS = -Wa,-adhlns=$(addprefix $(OBJDIR)/,$(<:.S=.lst)),-gstabs,--listing-cont-lines=100
+ASFLAGS = -Wa,-adhlns=$(addprefix $(OBJDIR)/,$(<:.S=.lst)),-g,--listing-cont-lines=100
 
 
 #---------------- Library Options ----------------
@@ -192,13 +182,19 @@ EXTMEMOPTS =
 #  -Wl,...:     tell GCC to pass this to linker.
 #    -Map:      create map file
 #    --cref:    add cross reference to  map file
-LDFLAGS = -Wl,-Map=$(OBJDIR)/$(TARGET).map,--cref
-LDFLAGS += $(EXTMEMOPTS)
-LDFLAGS += $(PRINTF_LIB) $(SCANF_LIB) $(MATH_LIB)
+LDSCRIPT = LDScript.ld
+LDFLAGS+= -T$(LDSCRIPT)
+LDFLAGS+= -mthumb -mcpu=cortex-m0
+LDFLAGS+= -L$(LIBRARY_SEARCH_PATHS)
+LDFLAGS+= $(patsubst %,-L%,$(LIBRARY_SEARCH_PATHS))
+LDFLAGS+= $(OTHER_LINKER_FLAGS)
+#LDFLAGS = -Wl,-Map=$(OBJDIR)/$(TARGET).map,--cref
+#LDFLAGS += $(EXTMEMOPTS)
+#LDFLAGS += $(PRINTF_LIB) $(SCANF_LIB) $(MATH_LIB)
 
 
 
-#---------------- Programming Options (avrdude) ----------------
+#---------------- Programming Options (LINK) ----------------
 
 # Programming hardware: alf avr910 avrisp bascom bsd 
 # dt006 pavr picoweb pony-stk200 sp12 stk200 stk500
@@ -207,35 +203,32 @@ LDFLAGS += $(PRINTF_LIB) $(SCANF_LIB) $(MATH_LIB)
 # to get a full listing.
 #
 
-AVRDUDE_WRITE_FLASH = -U flash:w:$(OBJDIR)/$(TARGET).hex
-#AVRDUDE_WRITE_EEPROM = -U eeprom:w:$(TARGET).eep
+LINK_WRITE_FLASH = -U flash:w:$(OBJDIR)/$(TARGET).hex
+#LINK_WRITE_EEPROM = -U eeprom:w:$(TARGET).eep
 
 
 # Uncomment the following if you want avrdude's erase cycle counter.
 # Note that this counter needs to be initialized first using -Yn,
 # see avrdude manual.
-#AVRDUDE_ERASE_COUNTER = -y
+#LINK_ERASE_COUNTER = -y
 
 # Uncomment the following if you do /not/ wish a verification to be
 # performed after programming the device.
-#AVRDUDE_NO_VERIFY = -V
+#LINK_NO_VERIFY = -V
 
 # Increase verbosity level.  Please use this when submitting bug
 # reports about avrdude. See <http://savannah.nongnu.org/projects/avrdude> 
 # to submit bug reports.
-#AVRDUDE_VERBOSE = -v -v
+#LINK_VERBOSE = -v -v
 
-AVRDUDE_FLAGS = -p $(MCU) -P $(AVRDUDE_PORT) -c $(AVRDUDE_PROGRAMMER)
-AVRDUDE_FLAGS += $(AVRDUDE_NO_VERIFY)
-AVRDUDE_FLAGS += $(AVRDUDE_VERBOSE)
-AVRDUDE_FLAGS += $(AVRDUDE_ERASE_COUNTER)
+LINK_FLAGS = -p $(MCU) -P $(LINK_PORT) -c $(LINK_PROGRAMMER)
+LINK_FLAGS += $(LINK_NO_VERIFY)
+LINK_FLAGS += $(LINK_VERBOSE)
+LINK_FLAGS += $(LINK_ERASE_COUNTER)
 
 
 
 #---------------- Debugging Options ----------------
-
-# For simulavr only - target MCU frequency.
-DEBUG_MFREQ = $(F_CPU)
 
 # Set the DEBUG_UI to either gdb or insight.
 # DEBUG_UI = gdb
@@ -246,7 +239,7 @@ DEBUG_BACKEND = avarice
 #DEBUG_BACKEND = simulavr
 
 # GDB Init Filename.
-GDBINIT_FILE = __avr_gdbinit
+GDBINIT_FILE = __arm_gdbinit
 
 # When using avarice settings for the JTAG
 JTAG_DEV = /dev/com1
@@ -266,12 +259,15 @@ DEBUG_HOST = localhost
 
 # Define programs and commands.
 SHELL = sh
-CC = /Applications/microchip/xc8/v2.00/avr/bin/avr-gcc
-OBJCOPY = /Applications/microchip/xc8/v2.00/bin/avr-objcopy
-OBJDUMP = /Applications/microchip/xc8/v2.00/avr/bin/avr-objdump
-SIZE = /Applications/microchip/xc8/v2.00/avr/bin/avr-size
-NM = /Applications/microchip/xc8/v2.00/avr/bin/avr-nm
-AVRDUDE = /usr/local/bin/avrdude
+CC = arm-none-eabi-gcc
+LD = arm-none-eabi-gcc
+AR = arm-none-eabi-ar
+AS = arm-none-eabi-as
+OBJCOPY = arm-none-eabi-objcopy
+OBJDUMP = arm-none-eabi-objdump
+SIZE = arm-none-eabi-size
+NM = arm-none-eabi-nm
+LINK = st-util
 REMOVE = rm -f
 COPY = cp
 WINSHELL = cmd
@@ -311,9 +307,8 @@ GENDEPFLAGS = -M
 
 # Combine all necessary flags and optional flags.
 # Add target processor to flags.
-ALL_CFLAGS = -mmcu=$(MCU) -I. $(CFLAGS)
-ALL_ASFLAGS = -mmcu=$(MCU) -I. -x assembler-with-cpp $(ASFLAGS)
-
+ALL_CFLAGS = -I. $(CFLAGS)
+ALL_ASFLAGS = -I. -x assembler-with-cpp $(ASFLAGS)
 
 # Generate dependency files
 DEPSDIR   = $(OBJDIR)/.dep
@@ -334,11 +329,12 @@ all: begin gccversion sizebefore clean build program sizeafter end
 
 build: $(OBJDIR) elf hex eep lss sym
 
+bin: $(OBJDIR)/$(TARGET).bin
 elf: $(OBJDIR)/$(TARGET).elf
 hex: $(OBJDIR)/$(TARGET).hex
-eep: $(OBJDIR)/$(TARGET).eep
-lss: $(OBJDIR)/$(TARGET).lss 
-sym: $(OBJDIR)/$(TARGET).sym
+#eep: $(OBJDIR)/$(TARGET).eep
+#lss: $(OBJDIR)/$(TARGET).lss
++sym: $(OBJDIR)/$(TARGET).sym
 
 $(OBJDIR):
 	@mkdir -p $@
@@ -377,7 +373,7 @@ gccversion :
 
 # Program the device.  
 program: $(OBJDIR)/$(TARGET).hex $(OBJDIR)/$(TARGET).eep
-	$(AVRDUDE) $(AVRDUDE_FLAGS) $(AVRDUDE_WRITE_FLASH) $(AVRDUDE_WRITE_EEPROM)
+	$(LINK) $(LINK_FLAGS) $(LINK_WRITE_FLASH) $(LINK_WRITE_EEPROM)
 
 # Generate avr-gdb config/init file which does the following:
 #     define the reset signal, load the target file, connect to target, and set 
@@ -435,26 +431,6 @@ $(OBJDIR)/%.hex: $(OBJDIR)/%.elf
 	@echo $(MSG_FLASH) $@
 	$(OBJCOPY) -O $(FORMAT) -R .eeprom $< $@
 
-$(OBJDIR)/%.eep: $(OBJDIR)/%.elf
-	@echo
-	@echo $(MSG_EEPROM) $@
-	-$(OBJCOPY) -j .eeprom --set-section-flags .eeprom=alloc,load \
-	--change-section-lma .eeprom=0 -O $(FORMAT) $< $@
-
-# Create extended listing file from ELF output file.
-$(OBJDIR)/%.lss: $(OBJDIR)/%.elf
-	@echo
-	@echo $(MSG_EXTENDED_LISTING) $@
-	$(OBJDUMP) -h -S $< > $@
-
-# Create a symbol table from ELF output file.
-$(OBJDIR)/%.sym: $(OBJDIR)/%.elf
-	@echo
-	@echo $(MSG_SYMBOL_TABLE) $@
-	$(NM) -n $< > $@
-
-
-
 # Link: create ELF output file from object files.
 .SECONDARY : $(OBJDIR)/$(TARGET).elf
 .PRECIOUS : $(OBJ)
@@ -484,7 +460,7 @@ $(OBJDIR)/%.o : %.S
 
 # Create preprocessed source for use in sending a bug report.
 $(OBJDIR)/%.i : %.c
-	$(CC) -E -mmcu=$(MCU) -I. $(CFLAGS) $< -o $@ 
+	$(CC) -E -I. $(CFLAGS) $< -o $@ 
 
 
 # Target: clean project.

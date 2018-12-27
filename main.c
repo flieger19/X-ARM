@@ -1,12 +1,12 @@
 //___FILEHEADER___
 
-#include "___VARIABLE_MCPU___.h"
+#include "___VARIABLE_MICROCONTROLLER___.h"
 
 int counter = 0;
 int offset = 5;
 
 void calc(void) {
-	i += off;
+	counter += offset;
 }
 
 int main(void) {
@@ -23,7 +23,7 @@ int main(void) {
 #ifdef USE_FULL_ASSERT
 void assert_failed(uint8_t* file, uint32_t line) {
     /* Infinite loop */
-    /* Use GDB to find out why we're here */
+    /* Use the debugger to find out why we're here */
     while (1);
 }
 #endif

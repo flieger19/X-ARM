@@ -43,11 +43,23 @@
 			<key>TargetIndices</key>
 			<array/>
 		</dict>
+		<key>LDScript.ld</key>
+		<dict>
+			<key>Path</key>
+			<string>LDScript.ld</string>
+			<key>Group</key>
+			<array>
+				<string>Scripts</string>
+			</array>
+			<key>TargetIndices</key>
+			<array/>
+		</dict>
 	</dict>
 	<key>Nodes</key>
 	<array>
 		<string>main.c</string>
 		<string>Makefile</string>
+		<string>LDScript.ld</string>
 	</array>
 	<key>Project</key>
 	<dict>
@@ -141,9 +153,9 @@
 			<key>Description</key>
 			<string>Microcontroller</string>
 			<key>Identifier</key>
-			<string>PTYPE</string>
+			<string>MICROCONTROLLER</string>
 			<key>Name</key>
-			<string>PTYPE</string>
+			<string>Microcontroller</string>
 			<key>SortOrder</key>
 			<integer>1</integer>
 			<key>Type</key>
@@ -159,12 +171,16 @@
 							<key>Debug</key>
 							<dict>
 								<key>GCC_PREPROCESSOR_DEFINITIONS</key>
-								<string>DEBUG=1, MCPU=cortex-m0, CPU_MODE=-mthumb, PTYPE=STM32F0XX_MD</string>
+								<string>DEBUG=1, MCPU=cortex-m0, PTYPE=STM32F0XX_MD</string>
+								<key>OTHER_LINKER_FLAGS</key>
+								<string>-lSTM32F0XX</string>
 							</dict>
 							<key>Release</key>
 							<dict>
 								<key>GCC_PREPROCESSOR_DEFINITIONS</key>
-								<string>MCPU=cortex-m0, CPU_MODE=-mthumb, PTYPE=STM32F0XX_MD</string>
+								<string>MCPU=cortex-m0, PTYPE=STM32F0XX_MD</string>
+								<key>OTHER_LINKER_FLAGS</key>
+								<string>-lSTM32F0XX</string>
 							</dict>
 						</dict>
 					</dict>
@@ -173,7 +189,7 @@
 		</dict>
 		<dict>
 			<key>Default</key>
-			<string>arduino</string>
+			<string>st-link</string>
 			<key>Description</key>
 			<string>Programmer</string>
 			<key>Identifier</key>
@@ -186,41 +202,9 @@
 			<string>popup</string>
 			<key>Units</key>
 			<dict>
-				<key>arduino</key>
+				<key>st-link</key>
 				<dict/>
 			</dict>
-		</dict>
-		<dict>
-			<key>Default</key>
-			<string>cu.usbmodem*</string>
-			<key>Description</key>
-			<string>Serial Port (for serial programmer)</string>
-			<key>Identifier</key>
-			<string>SERIAL_PORT</string>
-			<key>Name</key>
-			<string>Serial Port</string>
-			<key>SortOrder</key>
-			<integer>3</integer>
-			<key>Required</key>
-			<true/>
-			<key>Type</key>
-			<string>text</string>
-		</dict>
-		<dict>
-			<key>Default</key>
-			<string>16000000</string>
-			<key>Description</key>
-			<string>MCU frequence (in Hz)</string>
-			<key>Identifier</key>
-			<string>F_CPU</string>
-			<key>Name</key>
-			<string>Frequency</string>
-			<key>SortOrder</key>
-			<integer>4</integer>
-			<key>Required</key>
-			<true/>
-			<key>Type</key>
-			<string>text</string>
 		</dict>
 	</array>
 </dict>
