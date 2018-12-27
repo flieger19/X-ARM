@@ -1,18 +1,3 @@
-# Hey Emacs, this is a -*- makefile -*-
-#----------------------------------------------------------------------------
-# WinAVR Makefile Template written by Eric B. Weddington, Jörg Wunsch, et al.
-#
-# Released to the Public Domain
-#
-# Additional material for this makefile was written by:
-# Peter Fleury
-# Tim Henigan
-# Colin O'Flynn
-# Reiner Patommel
-# Markus Pfaff
-# Sander Pool
-# Frederik Rouleau
-#
 #----------------------------------------------------------------------------
 # On command line:
 #
@@ -134,50 +119,6 @@ CFLAGS += -DSTM32F0XX_MD -DUSE_STDPERIPH_DRIVER -DUSE_FULL_ASSERT
 #       dump that will be displayed for a given single line of source input.
 ASFLAGS = -Wa,-adhlns=$(addprefix $(OBJDIR)/,$(<:.S=.lst)),-g,--listing-cont-lines=100
 
-
-#---------------- Library Options ----------------
-# Minimalistic printf version
-PRINTF_LIB_MIN = -Wl,-u,vfprintf -lprintf_min
-
-# Floating point printf version (requires MATH_LIB = -lm below)
-PRINTF_LIB_FLOAT = -Wl,-u,vfprintf -lprintf_flt
-
-# If this is left blank, then it will use the Standard printf version.
-PRINTF_LIB = 
-#PRINTF_LIB = $(PRINTF_LIB_MIN)
-#PRINTF_LIB = $(PRINTF_LIB_FLOAT)
-
-
-# Minimalistic scanf version
-SCANF_LIB_MIN = -Wl,-u,vfscanf -lscanf_min
-
-# Floating point + %[ scanf version (requires MATH_LIB = -lm below)
-SCANF_LIB_FLOAT = -Wl,-u,vfscanf -lscanf_flt
-
-# If this is left blank, then it will use the Standard scanf version.
-SCANF_LIB = 
-#SCANF_LIB = $(SCANF_LIB_MIN)
-#SCANF_LIB = $(SCANF_LIB_FLOAT)
-
-
-MATH_LIB = -lm
-
-
-
-#---------------- External Memory Options ----------------
-
-# 64 KB of external RAM, starting after internal RAM (ATmega128!),
-# used for variables (.data/.bss) and heap (malloc()).
-#EXTMEMOPTS = -Wl,--section-start,.data=0x801100,--defsym=__heap_end=0x80ffff
-
-# 64 KB of external RAM, starting after internal RAM (ATmega128!),
-# only used for heap (malloc()).
-#EXTMEMOPTS = -Wl,--defsym=__heap_start=0x801100,--defsym=__heap_end=0x80ffff
-
-EXTMEMOPTS =
-
-
-
 #---------------- Linker Options ----------------
 #  -Wl,...:     tell GCC to pass this to linker.
 #    -Map:      create map file
@@ -188,70 +129,6 @@ LDFLAGS+= -mthumb -mcpu=cortex-m0
 LDFLAGS+= -L$(LIBRARY_SEARCH_PATHS)
 LDFLAGS+= $(patsubst %,-L%,$(LIBRARY_SEARCH_PATHS))
 LDFLAGS+= $(OTHER_LINKER_FLAGS)
-#LDFLAGS = -Wl,-Map=$(OBJDIR)/$(TARGET).map,--cref
-#LDFLAGS += $(EXTMEMOPTS)
-#LDFLAGS += $(PRINTF_LIB) $(SCANF_LIB) $(MATH_LIB)
-
-
-
-#---------------- Programming Options (LINK) ----------------
-
-# Programming hardware: alf avr910 avrisp bascom bsd 
-# dt006 pavr picoweb pony-stk200 sp12 stk200 stk500
-#
-# Type: avrdude -c ?
-# to get a full listing.
-#
-
-LINK_WRITE_FLASH = -U flash:w:$(OBJDIR)/$(TARGET).hex
-#LINK_WRITE_EEPROM = -U eeprom:w:$(TARGET).eep
-
-
-# Uncomment the following if you want avrdude's erase cycle counter.
-# Note that this counter needs to be initialized first using -Yn,
-# see avrdude manual.
-#LINK_ERASE_COUNTER = -y
-
-# Uncomment the following if you do /not/ wish a verification to be
-# performed after programming the device.
-#LINK_NO_VERIFY = -V
-
-# Increase verbosity level.  Please use this when submitting bug
-# reports about avrdude. See <http://savannah.nongnu.org/projects/avrdude> 
-# to submit bug reports.
-#LINK_VERBOSE = -v -v
-
-LINK_FLAGS = -p $(MCU) -P $(LINK_PORT) -c $(LINK_PROGRAMMER)
-LINK_FLAGS += $(LINK_NO_VERIFY)
-LINK_FLAGS += $(LINK_VERBOSE)
-LINK_FLAGS += $(LINK_ERASE_COUNTER)
-
-
-
-#---------------- Debugging Options ----------------
-
-# Set the DEBUG_UI to either gdb or insight.
-# DEBUG_UI = gdb
-DEBUG_UI = insight
-
-# Set the debugging back-end to either avarice, simulavr.
-DEBUG_BACKEND = avarice
-#DEBUG_BACKEND = simulavr
-
-# GDB Init Filename.
-GDBINIT_FILE = __arm_gdbinit
-
-# When using avarice settings for the JTAG
-JTAG_DEV = /dev/com1
-
-# Debugging port used to communicate between GDB / avarice / simulavr.
-DEBUG_PORT = 4242
-
-# Debugging host used to communicate between GDB / avarice / simulavr, normally
-#     just set to localhost unless doing some sort of crazy debugging when 
-#     avarice is running on a different computer.
-DEBUG_HOST = localhost
-
 
 
 #============================================================================
@@ -270,7 +147,6 @@ NM = arm-none-eabi-nm
 LINK = st-util
 REMOVE = rm -f
 COPY = cp
-WINSHELL = cmd
 
 
 # Define Messages
@@ -311,7 +187,7 @@ ALL_CFLAGS = -I. $(CFLAGS)
 ALL_ASFLAGS = -I. -x assembler-with-cpp $(ASFLAGS)
 
 # Generate dependency files
-DEPSDIR   = $(OBJDIR)/.dep
+DEPSDIR   = $(OBJDIR)/dep
 DEPS      = $(SRC:%.c=$(DEPSDIR)/%.d)
 
 -include $(DEPS)
@@ -332,9 +208,6 @@ build: $(OBJDIR) elf hex eep lss sym
 bin: $(OBJDIR)/$(TARGET).bin
 elf: $(OBJDIR)/$(TARGET).elf
 hex: $(OBJDIR)/$(TARGET).hex
-#eep: $(OBJDIR)/$(TARGET).eep
-#lss: $(OBJDIR)/$(TARGET).lss
-+sym: $(OBJDIR)/$(TARGET).sym
 
 $(OBJDIR):
 	@mkdir -p $@
@@ -368,62 +241,6 @@ sizeafter:
 # Display compiler version information.
 gccversion : 
 	@$(CC) --version
-
-
-
-# Program the device.  
-program: $(OBJDIR)/$(TARGET).hex $(OBJDIR)/$(TARGET).eep
-	$(LINK) $(LINK_FLAGS) $(LINK_WRITE_FLASH) $(LINK_WRITE_EEPROM)
-
-# Generate avr-gdb config/init file which does the following:
-#     define the reset signal, load the target file, connect to target, and set 
-#     a breakpoint at main().
-gdb-config: 
-	@$(REMOVE) $(GDBINIT_FILE)
-	@echo define reset >> $(GDBINIT_FILE)
-	@echo SIGNAL SIGHUP >> $(GDBINIT_FILE)
-	@echo end >> $(GDBINIT_FILE)
-	@echo file $(OBJDIR)/$(TARGET).elf >> $(GDBINIT_FILE)
-	@echo target remote $(DEBUG_HOST):$(DEBUG_PORT)  >> $(GDBINIT_FILE)
-ifeq ($(DEBUG_BACKEND),simulavr)
-	@echo load  >> $(GDBINIT_FILE)
-endif	
-	@echo break main >> $(GDBINIT_FILE)
-
-debug: gdb-config $(OBJDIR)/$(TARGET).elf
-ifeq ($(DEBUG_BACKEND), avarice)
-	@echo Starting AVaRICE - Press enter when "waiting to connect" message displays.
-	@$(WINSHELL) /c start avarice --jtag $(JTAG_DEV) --erase --program --file \
-	$(OBJDIR)/$(TARGET).elf $(DEBUG_HOST):$(DEBUG_PORT)
-	@$(WINSHELL) /c pause
-else
-	@$(WINSHELL) /c start simulavr --gdbserver --device $(MCU) --clock-freq \
-	$(DEBUG_MFREQ) --port $(DEBUG_PORT)
-endif
-	@$(WINSHELL) /c start avr-$(DEBUG_UI) --command=$(GDBINIT_FILE)
-
-
-
-# Convert ELF to COFF for use in debugging / simulating in AVR Studio or VMLAB.
-COFFCONVERT=$(OBJCOPY) --debugging \
---change-section-address .data-0x800000 \
---change-section-address .bss-0x800000 \
---change-section-address .noinit-0x800000 \
---change-section-address .eeprom-0x810000 
-
-
-coff: $(OBJDIR)/$(TARGET).elf
-	@echo
-	@echo $(MSG_COFF) $(OBJDIR)/$(TARGET).cof
-	$(COFFCONVERT) -O coff-avr $< $(OBJDIR)/$(TARGET).cof
-
-
-extcoff: $(OBJDIR)/$(TARGET).elf
-	@echo
-	@echo $(MSG_EXTENDED_COFF) $(OBJDIR)/$(TARGET).cof
-	$(COFFCONVERT) -O coff-ext-avr $< $(OBJDIR)/$(TARGET).cof
-
-
 
 # Create final output files (.hex, .eep) from ELF output file.
 $(OBJDIR)/%.hex: $(OBJDIR)/%.elf
@@ -480,7 +297,7 @@ clean_list :
 	$(REMOVE) $(LST)
 	$(REMOVE) $(OBJDIR)/$(SRC:.c=.s)
 	$(REMOVE) $(OBJDIR)/$(SRC:.c=.d)
-	$(REMOVE) $(OBJDIR)/.dep/*
+	$(REMOVE) $(OBJDIR)/dep/*
 
 
 # Listing of phony targets.
