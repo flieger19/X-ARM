@@ -25,10 +25,10 @@
 
 #include conf.mk
 # MICROCONTROLLER name
-MICROCONTROLLER = ___VARIABLE_MICROCONTROLLER___
+MICROCONTROLLER = stm32f0xx
 
 # name of the link programmer
-LINK_PROGRAMMER = ___VARIABLE_PROGRAMMER___
+LINK_PROGRAMMER = st-link
 
 # Output format. (can be srec, ihex, binary)
 FORMAT = ihex
@@ -139,6 +139,7 @@ OBJCOPY = arm-none-eabi-objcopy
 OBJDUMP = arm-none-eabi-objdump
 SIZE = arm-none-eabi-size
 NM = arm-none-eabi-nm
+GDB = arm-none-eabi-gdb
 LINK = st-util
 REMOVE = rm -f
 COPY = cp
@@ -174,23 +175,21 @@ $(OBJDIR):
 	@mkdir -p $@
 
 # Program the device.
-program: @st-util
+program:
+	@exec $(LINK) &
 
 # Generate arm-gdb config/init file which does the following:
 #     define the reset signal, load the target file, connect to target, and set
 #     a breakpoint at main().
 gdb-config:
 	@$(REMOVE) $(GDBINIT_FILE)
-#@echo define reset >> $(GDBINIT_FILE)
-#@echo SIGNAL SIGHUP >> $(GDBINIT_FILE)
-#@echo end >> $(GDBINIT_FILE)
 	@echo file $(OBJDIR)/$(TARGET).elf >> $(GDBINIT_FILE)
 	@echo target extended-remote :$(DEBUG_PORT)  >> $(GDBINIT_FILE)
 	@echo load  >> $(GDBINIT_FILE)
-	@echo break main >> $(GDBINIT_FILE)
 	@echo continue >> $(GDBINIT_FILE)
 
 debug: gdb-config $(OBJDIR)/$(TARGET).elf
+	@$(GDB) -x $(GDBINIT_FILE)
 
 # Link: create ELF output file from object files.
 .SECONDARY : $(OBJDIR)/$(TARGET).elf
