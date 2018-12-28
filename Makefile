@@ -99,16 +99,31 @@ CFLAGS += -DSTM32F0XX_MD -DUSE_STDPERIPH_DRIVER -DUSE_FULL_ASSERT
 #       dump that will be displayed for a given single line of source input.
 ASFLAGS =
 
+#---------------- Library Options ----------------
+#  import Xcode library flags
+LDLIBS = $(OTHER_LINKER_FLAGS)
+
 #---------------- Linker Options ----------------
+#  define linker script
+LDSCRIPT = LDScript.ld
+
+#  setup linker flags
 #  -Wl,...:     tell GCC to pass this to linker.
 #    -Map:      create map file
 #    --cref:    add cross reference to  map file
-LDSCRIPT = LDScript.ld
-LDFLAGS+= -T$(LDSCRIPT)
-LDFLAGS+= -mthumb -mcpu=cortex-m0
-LDFLAGS+= -L$(LIBRARY_SEARCH_PATHS)
-LDFLAGS+= $(patsubst %,-L%,$(EXTRAINCDIRS))
-LDLIBS = $(OTHER_LINKER_FLAGS)
+LDFLAGS += -T$(LDSCRIPT)
+LDFLAGS += -mthumb -mcpu=cortex-m0
+LDFLAGS += -L$(LIBRARY_SEARCH_PATHS)
+LDFLAGS += $(patsubst %,-L%,$(EXTRAINCDIRS))
+
+#---------------- Programming Options ----------------
+
+#---------------- Debugging Options ----------------
+# GDB Init Filename.
+GDBINIT_FILE = __avr_gdbinit
+
+# Debugging port used to communicate between GDB / avarice / simulavr.
+DEBUG_PORT = 4242
 
 
 #============================================================================
@@ -147,7 +162,7 @@ $(DEPSDIR)/%.d: %.c | $(DEPSDIR)
 
 
 # Default target.
-all: clean build
+all: clean build program debug
 
 build: $(OBJDIR) elf #hex
 
@@ -158,6 +173,24 @@ elf: $(OBJDIR)/$(TARGET).elf
 $(OBJDIR):
 	@mkdir -p $@
 
+# Program the device.
+program: @st-util
+
+# Generate arm-gdb config/init file which does the following:
+#     define the reset signal, load the target file, connect to target, and set
+#     a breakpoint at main().
+gdb-config:
+	@$(REMOVE) $(GDBINIT_FILE)
+#@echo define reset >> $(GDBINIT_FILE)
+#@echo SIGNAL SIGHUP >> $(GDBINIT_FILE)
+#@echo end >> $(GDBINIT_FILE)
+	@echo file $(OBJDIR)/$(TARGET).elf >> $(GDBINIT_FILE)
+	@echo target extended-remote :$(DEBUG_PORT)  >> $(GDBINIT_FILE)
+	@echo load  >> $(GDBINIT_FILE)
+	@echo break main >> $(GDBINIT_FILE)
+	@echo continue >> $(GDBINIT_FILE)
+
+debug: gdb-config $(OBJDIR)/$(TARGET).elf
 
 # Link: create ELF output file from object files.
 .SECONDARY : $(OBJDIR)/$(TARGET).elf
