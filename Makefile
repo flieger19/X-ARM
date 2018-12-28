@@ -108,7 +108,7 @@ LDFLAGS+= -T$(LDSCRIPT)
 LDFLAGS+= -mthumb -mcpu=cortex-m0
 LDFLAGS+= -L$(LIBRARY_SEARCH_PATHS)
 LDFLAGS+= $(patsubst %,-L%,$(EXTRAINCDIRS))
-LDFLAGS+= $(OTHER_LINKER_FLAGS)
+LDLIBS = $(OTHER_LINKER_FLAGS)
 
 
 #============================================================================
