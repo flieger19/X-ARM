@@ -131,15 +131,15 @@ DEBUG_PORT = 4242
 
 # Define programs and commands.
 SHELL = sh
-CC = arm-none-eabi-gcc
-LD = arm-none-eabi-gcc
-AR = arm-none-eabi-ar
-AS = arm-none-eabi-as
-OBJCOPY = arm-none-eabi-objcopy
-OBJDUMP = arm-none-eabi-objdump
-SIZE = arm-none-eabi-size
-NM = arm-none-eabi-nm
-GDB = arm-none-eabi-gdb
+CC = {arm-none-eabi-gcc_loc}
+LD = {arm-none-eabi-gcc_loc}
+AR = {arm-none-eabi-ar_loc}
+AS = {arm-none-eabi-as_loc}
+OBJCOPY = {arm-none-eabi-objcopy_loc}
+OBJDUMP = {arm-none-eabi-objdump_loc}
+SIZE = {arm-none-eabi-size_loc}
+NM = {arm-none-eabi-nm_loc}
+GDB = {arm-none-eabi-gdb_loc}
 LINK = st-util
 REMOVE = rm -f
 COPY = cp
