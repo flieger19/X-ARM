@@ -56,24 +56,68 @@ def mcu_to_def(mcu):
         defi = defi.replace(family, family.lower())
     return '__AVR_' + defi + '__'
 
+def build_frameworks(family, sources_dir, core_dest, periphery_dest):
+    core_dir = 'Libraries/CMSIS/'
+    periphery_dir = 'Libraries/' + family + 'xx_StdPeriph_Driver/'
+    device_dir = 'Device/ST/' + family + 'xx/'
+    inc_dir = 'inc'
+    src_dir = 'src'
+    include_dir = 'Include'
+    source_dir = 'Source'
+
+    source = ''
+    # 1
+    for file in os.listdir(sources_dir + core_dir + include_dir):
+        if file.endswith(".h"):
+            source = os.path.join(sources_dir + core_dir + include_dir, file)
+            copy_file(source, core_dest)
+    # 2
+    for file in os.listdir(sources_dir + core_dir + device_dir + include_dir):
+        if file.endswith(".h"):
+            source = os.path.join(sources_dir + core_dir + device_dir + include_dir, file)
+            copy_file(source, core_dest)
+    # 3
+    for file in os.listdir(sources_dir + core_dir + device_dir + source_dir):
+        if file.endswith(".c"):
+            source = os.path.join(sources_dir + core_dir + device_dir + source_dir, file)
+            copy_file(source, core_dest)
+
+    # 1
+    for file in os.listdir(sources_dir + periphery_dir + inc_dir):
+        if file.endswith(".h"):
+            source = os.path.join(sources_dir + periphery_dir + inc_dir, file)
+            copy_file(source, periphery_dest)
+    # 2
+    for file in os.listdir(sources_dir + periphery_dir + src_dir):
+        if file.endswith(".c"):
+            source = os.path.join(sources_dir + periphery_dir + src_dir, file)
+            copy_file(source, periphery_dest)
+
+    os.system('cmake Libraries Libraries')
+
 
 def supported_mcus(library_dir):
     HEADER = 'Known MCU names:'
     
-    BUILD_DIR = 'Build'
+    BUILD_DIR = 'Libraries'
     
     families = ['STM32F0', 'STM32F1', 'STM32F2', 'STM32F3', 'STM32F4', 'STM32L1']
     
     subdirs = [name for name in os.listdir(library_dir) if os.path.isdir(os.path.join(library_dir, name))]
 
     mcus = []
+    core_dir = ''
+    periphery_dir = ''
 
     for subdir in subdirs:
         for family in families:
             if family in subdir:
                 mcus += [family]
-                mkdirs_p(BUILD_DIR + '/' + family + '/' + 'core')
-                mkdirs_p(BUILD_DIR + '/' + family + '/' + 'periphery')
+                core_dir = BUILD_DIR + '/' + family + '/' + 'core'
+                periphery_dir = BUILD_DIR + '/' + family + '/' + 'periphery'
+                mkdirs_p(core_dir)
+                mkdirs_p(periphery_dir)
+                build_frameworks(family, library_dir + '/' + subdir + '/', core_dir, periphery_dir)
 
     return mcus
 

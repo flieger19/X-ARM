@@ -5,7 +5,7 @@
 	<key>Kind</key>
 	<string>Xcode.Xcode3.ProjectTemplateUnitKind</string>
 	<key>Identifier</key>
-	<string>de.cdullo.xarm.xcode4.template</string>
+	<string>de.cdullo.XarmBasic.xcode4.template</string>
 	<key>Concrete</key>
 	<true/>
 	<key>Description</key>

@@ -5,11 +5,11 @@
 	<key>Kind</key>
 	<string>Xcode.Xcode3.ProjectTemplateUnitKind</string>
 	<key>Identifier</key>
-	<string>de.cdullo.xarm.xcode4.template</string>
+	<string>de.cdullo.XarmCube.xcode4.template</string>
 	<key>Concrete</key>
 	<true/>
 	<key>Description</key>
-	<string>This template builds an basic ARM C project</string>
+	<string>This template builds an STM32CubeMX Makefile project</string>
 	<key>SorterOrder</key>
 	<integer>1</integer>
 	<key>Platforms</key>
