@@ -21,8 +21,15 @@ def mkdirs_p(dirs):
         else:
             raise
 
+
 def copy_file(file, destination):
     shutil.copy(file, destination)
+
+
+def copy_dir(dir, destination):
+    #shutil.copytree(dir, destination)
+    os.system('cp -r ' + dir + ' ' + destination)
+
 
 def exec_iter(items, template, output):
     lines = []
@@ -49,6 +56,7 @@ def exec_template(from_template, to, model):
                 else:
                     output.write(line.format(**model))
 
+
 def mcu_to_def(mcu):
     defi = mcu.upper()
     families = ['stm32f0', 'stm32f1', 'stm32f2', 'stm32f3', 'stm32f4', 'stm32l1']
@@ -56,7 +64,10 @@ def mcu_to_def(mcu):
         defi = defi.replace(family, family.lower())
     return '__AVR_' + defi + '__'
 
+
 def create_platform(family, sources_dir, destination_dir):
+    print('Creating platforms for supported mcu...')
+    
     core_dir = 'Libraries/CMSIS/'
     periphery_dir = 'Libraries/' + family + 'xx_StdPeriph_Driver/'
     device_dir = 'Device/ST/' + family + 'xx/'
@@ -105,9 +116,9 @@ def create_platform(family, sources_dir, destination_dir):
 
 
 def supported_mcus(library_dir):
-    HEADER = 'Known MCU names:'
+    print('Searching for supported mcu libraries...')
     
-    BUILD_DIR = 'Libraries'
+    BUILD_DIR = 'Platforms'
     
     families = ['STM32F0', 'STM32F1', 'STM32F2', 'STM32F3', 'STM32F4', 'STM32L1']
     
@@ -194,13 +205,21 @@ def options(argv):
     return directory
 
 
-def install(template, destination, files):
+def installTemplates(template, destination, files):
     
     print('Installing ' + template + ' in: "{}"'.format(destination))
     mkdirs_p(destination)
     
     for file in files:
         copy_file(file, destination)
+
+def installPlatforms(template, destination, files):
+    
+    print('Installing ' + template + ' in: "{}"'.format(destination))
+    mkdirs_p(destination)
+    
+    for file in files:
+        copy_dir(file, destination)
 
 
 def main(argv):
@@ -216,30 +235,37 @@ def main(argv):
         model[tool + '_loc'] = ensure_installed(tool)
     
     print(model[STM32CubeMX + '_loc'])
-    
+
+    # build XarmBasic.xctemplate
     exec_template('Templates/XarmBasic/Makefile.tpl', 'Makefile', model)
 
     # check microcontroler support
-    #model = {'mcus': supported_mcus(),
-    #'programmers': supported_programmers()
-    #}
     model = {'mcus': supported_mcus(LIBRARY_DIR)}
     exec_template('Templates/XarmBasic/TemplateInfo.plist.tpl', 'TemplateInfo.plist', model)
     
-    #print('Generated template:\n\tMCUs        : {}\n\tProgrammers : {}'
-    #.format(len(model['mcus']), len(model['programmers'])))
     print('Generated template:\n\tMCUs        : {}'.format(len(model['mcus'])))
 
     #DEST_DIR = os.path.join(os.path.expanduser('~'),
     #'Library/Developer/Xcode/Templates/Project Template/xavr/xavr.xctemplate/')
     files = ['Templates/XarmBasic/main.c', 'Makefile', 'TemplateInfo.plist', 'Resouces/TemplateIcon.png', 'Resouces/TemplateIcon@2x.png']
-    DEST_DIR = os.path.join(os.path.expanduser('~'), 'Downloads/Library/Developer/Xcode/Templates/Project Templates/X-ARM/XarmBasic.xctemplate/')
-    NEXT_DIR = os.path.join(os.path.expanduser('~'), 'Downloads/Library/Developer/Xcode/Templates/File Templates/X-ARM/XarmBasic.xctemplate/')
-    NEW_DIR = os.path.join(os.path.expanduser('~'), 'Downloads/Library/Developer/Platforms/')
-    install('X-ARM Basic', DEST_DIR, files)
+    PROJ_DIR = os.path.join(os.path.expanduser('~'), 'Downloads/Library/Developer/Xcode/Templates/Project Templates/X-ARM/XarmBasic.xctemplate/')
+    installTemplates('X-ARM Basic', PROJ_DIR, files)
+
+    files = ['Templates/XarmBasic/main.c']
+    FILE_DIR = os.path.join(os.path.expanduser('~'), 'Downloads/Library/Developer/Xcode/Templates/File Templates/X-ARM/XarmPeriphery.xctemplate/')
+    installTemplates('X-ARM Files', FILE_DIR, files)
+
+    PLAT_DIR = os.path.join(os.path.expanduser('~'), 'Downloads/Library/Developer/Platforms/')
+    Platforms = model['mcus']
+    files = []
+    for platform in Platforms:
+        files += ['Platforms/' + platform + 'XX.platform']
+        installPlatforms('X-ARM Platform', PLAT_DIR, files)
 
     os.remove('Makefile')
     os.remove('TemplateInfo.plist')
+
+
     print('Done. Hack away !\n')
 
 
