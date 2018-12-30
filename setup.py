@@ -56,7 +56,7 @@ def mcu_to_def(mcu):
         defi = defi.replace(family, family.lower())
     return '__AVR_' + defi + '__'
 
-def build_frameworks(family, sources_dir, core_dest, periphery_dest):
+def create_workspaces(family, sources_dir, core_dest, periphery_dest):
     core_dir = 'Libraries/CMSIS/'
     periphery_dir = 'Libraries/' + family + 'xx_StdPeriph_Driver/'
     device_dir = 'Device/ST/' + family + 'xx/'
@@ -93,8 +93,6 @@ def build_frameworks(family, sources_dir, core_dest, periphery_dest):
             source = os.path.join(sources_dir + periphery_dir + src_dir, file)
             copy_file(source, periphery_dest)
 
-    os.system('cmake Libraries Libraries')
-
 
 def supported_mcus(library_dir):
     HEADER = 'Known MCU names:'
@@ -117,7 +115,10 @@ def supported_mcus(library_dir):
                 periphery_dir = BUILD_DIR + '/' + family + '/' + 'periphery'
                 mkdirs_p(core_dir)
                 mkdirs_p(periphery_dir)
-                build_frameworks(family, library_dir + '/' + subdir + '/', core_dir, periphery_dir)
+                create_workspaces(family, library_dir + '/' + subdir + '/', core_dir, periphery_dir)
+                copy_file('Resouces/CMakeLists.txt', BUILD_DIR + '/' + family)
+                os.system('cmake -S ' + BUILD_DIR + '/' + family + ' -B ' + BUILD_DIR + '/' + family + ' -DMCU_TYPE:STRING=' + family)
+                os.system('make -C ' + BUILD_DIR + '/' + family)
 
     return mcus
 
