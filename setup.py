@@ -56,7 +56,7 @@ def mcu_to_def(mcu):
         defi = defi.replace(family, family.lower())
     return '__AVR_' + defi + '__'
 
-def create_workspaces(family, sources_dir, core_dest, periphery_dest):
+def create_platform(family, sources_dir, destination_dir):
     core_dir = 'Libraries/CMSIS/'
     periphery_dir = 'Libraries/' + family + 'xx_StdPeriph_Driver/'
     device_dir = 'Device/ST/' + family + 'xx/'
@@ -65,33 +65,43 @@ def create_workspaces(family, sources_dir, core_dest, periphery_dest):
     include_dir = 'Include'
     source_dir = 'Source'
 
+    core_include_dir = destination_dir + 'XX.platform/include/core'
+    core_source_dir = destination_dir + 'XX.platform/src/core'
+    periphery_include_dir = destination_dir + 'XX.platform/include/periphery'
+    periphery_source_dir = destination_dir + 'XX.platform/src/periphery'
+    
+    mkdirs_p(core_include_dir)
+    mkdirs_p(core_source_dir)
+    mkdirs_p(periphery_include_dir)
+    mkdirs_p(periphery_source_dir)
+    
     source = ''
     # 1
     for file in os.listdir(sources_dir + core_dir + include_dir):
         if file.endswith(".h"):
             source = os.path.join(sources_dir + core_dir + include_dir, file)
-            copy_file(source, core_dest)
+            copy_file(source, core_include_dir)
     # 2
     for file in os.listdir(sources_dir + core_dir + device_dir + include_dir):
         if file.endswith(".h"):
             source = os.path.join(sources_dir + core_dir + device_dir + include_dir, file)
-            copy_file(source, core_dest)
+            copy_file(source, core_include_dir)
     # 3
     for file in os.listdir(sources_dir + core_dir + device_dir + source_dir):
         if file.endswith(".c"):
             source = os.path.join(sources_dir + core_dir + device_dir + source_dir, file)
-            copy_file(source, core_dest)
+            copy_file(source, core_source_dir)
 
     # 1
     for file in os.listdir(sources_dir + periphery_dir + inc_dir):
         if file.endswith(".h"):
             source = os.path.join(sources_dir + periphery_dir + inc_dir, file)
-            copy_file(source, periphery_dest)
+            copy_file(source, periphery_include_dir)
     # 2
     for file in os.listdir(sources_dir + periphery_dir + src_dir):
         if file.endswith(".c"):
             source = os.path.join(sources_dir + periphery_dir + src_dir, file)
-            copy_file(source, periphery_dest)
+            copy_file(source, periphery_source_dir)
 
 
 def supported_mcus(library_dir):
@@ -111,14 +121,8 @@ def supported_mcus(library_dir):
         for family in families:
             if family in subdir:
                 mcus += [family]
-                core_dir = BUILD_DIR + '/' + family + '/' + 'core'
-                periphery_dir = BUILD_DIR + '/' + family + '/' + 'periphery'
-                mkdirs_p(core_dir)
-                mkdirs_p(periphery_dir)
-                create_workspaces(family, library_dir + '/' + subdir + '/', core_dir, periphery_dir)
-                copy_file('Resouces/CMakeLists.txt', BUILD_DIR + '/' + family)
-                os.system('cmake -S ' + BUILD_DIR + '/' + family + ' -B ' + BUILD_DIR + '/' + family + ' -DMCU_TYPE:STRING=' + family)
-                os.system('make -C ' + BUILD_DIR + '/' + family)
+                destination_dir = BUILD_DIR + '/' + family
+                create_platform(family, library_dir + '/' + subdir + '/', destination_dir)
 
     return mcus
 
@@ -230,6 +234,8 @@ def main(argv):
     #'Library/Developer/Xcode/Templates/Project Template/xavr/xavr.xctemplate/')
     files = ['Templates/XarmBasic/main.c', 'Makefile', 'TemplateInfo.plist', 'Resouces/TemplateIcon.png', 'Resouces/TemplateIcon@2x.png']
     DEST_DIR = os.path.join(os.path.expanduser('~'), 'Downloads/Library/Developer/Xcode/Templates/Project Templates/X-ARM/XarmBasic.xctemplate/')
+    NEXT_DIR = os.path.join(os.path.expanduser('~'), 'Downloads/Library/Developer/Xcode/Templates/File Templates/X-ARM/XarmBasic.xctemplate/')
+    NEW_DIR = os.path.join(os.path.expanduser('~'), 'Downloads/Library/Developer/Platforms/')
     install('X-ARM Basic', DEST_DIR, files)
 
     os.remove('Makefile')
