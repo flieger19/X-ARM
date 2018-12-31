@@ -24,8 +24,8 @@
 #----------------------------------------------------------------------------
 
 #include conf.mk
-# MICROCONTROLLER name
-MICROCONTROLLER = stm32f0xx
+# MCU name
+MCU = ___VARIABLE_MCU___
 
 # name of the link programmer
 LINK_PROGRAMMER = st-link

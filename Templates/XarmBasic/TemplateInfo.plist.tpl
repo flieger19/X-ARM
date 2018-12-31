@@ -32,6 +32,33 @@
 			<key>Path</key>
 			<string>main.c</string>
 		</dict>
+		<key>___VARIABLE_MCU____conf.h</key>
+		<dict>
+			<key>Path</key>
+			<string>___VARIABLE_MCU____conf.h</string>
+			<key>Group</key>
+			<array>
+				<string>Configuration</string>
+			</array>
+		</dict>
+		<key>startup____VARIABLE_MCU___.c</key>
+		<dict>
+			<key>Path</key>
+			<string>startup____VARIABLE_MCU___.c</string>
+			<key>Group</key>
+			<array>
+				<string>Startup</string>
+			</array>
+		</dict>
+		<key>system____VARIABLE_MCU___.c</key>
+		<dict>
+			<key>Path</key>
+			<string>system____VARIABLE_MCU___.c</string>
+			<key>Group</key>
+			<array>
+				<string>Startup</string>
+			</array>
+		</dict>
 		<key>Makefile</key>
 		<dict>
 			<key>Path</key>
@@ -58,6 +85,9 @@
 	<key>Nodes</key>
 	<array>
 		<string>main.c</string>
+		<string>___VARIABLE_MCU____conf.h</string>
+		<string>startup____VARIABLE_MCU___.c</string>
+		<string>system____VARIABLE_MCU___.c</string>
 		<string>Makefile</string>
 		<string>LDScript.ld</string>
 	</array>
@@ -75,9 +105,9 @@
 			<key>PATH</key>
 			<string>$(PATH):$(PROJECT_DIR)</string>
 			<key>HEADER_SEARCH_PATHS</key>
-			<string>$(HOME)/Library/Developer/Xcode/Templates/Project\ Templates/xarm/xarm.xctemplate/include</string>
-			<key>LIBRARY_SEARCH_PATHS</key>
-			<string>$(HOME)/Library/Developer/Xcode/Templates/Project\ Templates/xarm/xarm.xctemplate/lib</string>
+			<string>$(HOME)/Library/Developer/Platforms/___VARIABLE_MCU___.platform/include/core</string>
+			<key>LIBRARIEN_SOURCES</key>
+			<string></string>
 			<key>PRODUCT_NAME</key>
 			<string>$(TARGET_NAME)</string>
 		</dict>
@@ -153,16 +183,16 @@
 			<key>Description</key>
 			<string>Microcontroller</string>
 			<key>Identifier</key>
-			<string>MICROCONTROLLER</string>
+			<string>MCU</string>
 			<key>Name</key>
-			<string>Microcontroller</string>
+			<string>MCU</string>
 			<key>SortOrder</key>
 			<integer>1</integer>
 			<key>Type</key>
 			<string>popup</string>
 			<key>Units</key>
 			<dict>
-				<key>stm32f0xx</key>
+				<key>{mcu}</key>
 				<dict>
 					<key>Project</key>
 					<dict>
@@ -170,40 +200,21 @@
 						<dict>
 							<key>Debug</key>
 							<dict>
-								<key>GCC_PREPROCESSOR_DEFINITIONS</key>
-								<string>DEBUG=1, MCPU=cortex-m0, PTYPE=STM32F0XX_MD</string>
+								<key>CFLAGS</key>
+								<string>-g -O0 -mcpu={mcpu} -D{MCU}_MD</string>
 								<key>OTHER_LINKER_FLAGS</key>
-								<string>-lSTM32F0XX</string>
+								<string>-mcpu={mcpu}</string>
 							</dict>
 							<key>Release</key>
 							<dict>
 								<key>GCC_PREPROCESSOR_DEFINITIONS</key>
-								<string>MCPU=cortex-m0, PTYPE=STM32F0XX_MD</string>
+								<string>-O2 -mcpu={mcpu} -D{MCU}_MD</string>
 								<key>OTHER_LINKER_FLAGS</key>
-								<string>-lSTM32F0XX</string>
+								<string>-mcpu={mcpu}</string>
 							</dict>
 						</dict>
 					</dict>
 				</dict>
-			</dict>
-		</dict>
-		<dict>
-			<key>Default</key>
-			<string>st-link</string>
-			<key>Description</key>
-			<string>Programmer</string>
-			<key>Identifier</key>
-			<string>PROGRAMMER</string>
-			<key>Name</key>
-			<string>Programmer</string>
-			<key>SortOrder</key>
-			<integer>2</integer>
-			<key>Type</key>
-			<string>popup</string>
-			<key>Units</key>
-			<dict>
-				<key>st-link</key>
-				<dict/>
 			</dict>
 		</dict>
 	</array>

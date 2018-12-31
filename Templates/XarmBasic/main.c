@@ -1,6 +1,6 @@
 //___FILEHEADER___
 
-#include <___VARIABLE_MICROCONTROLLER___.h>
+#include <___VARIABLE_MCU___.h>
 
 int counter = 0;
 int offset = 5;
