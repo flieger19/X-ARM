@@ -105,7 +105,7 @@
 			<key>PATH</key>
 			<string>$(PATH):$(PROJECT_DIR)</string>
 			<key>HEADER_SEARCH_PATHS</key>
-			<string>$(HOME)/Library/Developer/Platforms/___VARIABLE_MCU___.platform/include/core</string>
+			<string>$(HOME)/Library/Developer/Platforms/___VARIABLE_MCU___.platform/include/core $(HOME)/Library/Developer/Platforms/___VARIABLE_MCU___.platform/include/periphery</string>
 			<key>LIBRARIEN_SOURCES</key>
 			<string></string>
 			<key>PRODUCT_NAME</key>

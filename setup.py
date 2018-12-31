@@ -231,6 +231,10 @@ def installPlatforms(template, destination, files):
         copy_dir(file, destination)
 
 
+def supported_peripheries():
+    return ''
+
+
 def main(argv):
     
     # prosess option
@@ -253,22 +257,25 @@ def main(argv):
     print('Generated template:\n\tMCUs        : {}'.format(len(model['mcus'])))
     exec_template('Templates/XarmBasic/TemplateInfo.plist.tpl', 'TemplateInfo.plist', model)
 
-    #DEST_DIR = os.path.join(os.path.expanduser('~'),
-    #'Library/Developer/Xcode/Templates/Project Template/xavr/xavr.xctemplate/')
+    # install project template
     files = ['Templates/XarmBasic/main.c', 'Templates/XarmBasic/startup____VARIABLE_MCU___.c', 'Templates/XarmBasic/system____VARIABLE_MCU___.c', 'Templates/XarmBasic/___VARIABLE_MCU____conf.h', 'Makefile', 'TemplateInfo.plist', 'Resouces/TemplateIcon.png', 'Resouces/TemplateIcon@2x.png']
-    PROJ_DIR = os.path.join(os.path.expanduser('~'), 'Downloads/Library/Developer/Xcode/Templates/Project Templates/X-ARM/XarmBasic.xctemplate/')
+    PROJ_DIR = os.path.join(os.path.expanduser('~'), 'Library/Developer/Xcode/Templates/Project Templates/X-ARM/XarmBasic.xctemplate/')
     installTemplates('X-ARM Basic', PROJ_DIR, files)
 
-    files = ['Templates/XarmBasic/main.c']
-    FILE_DIR = os.path.join(os.path.expanduser('~'), 'Downloads/Library/Developer/Xcode/Templates/File Templates/X-ARM/XarmPeriphery.xctemplate/')
-    installTemplates('X-ARM Files', FILE_DIR, files)
-
+    # install platform library
     PLAT_DIR = os.path.join(os.path.expanduser('~'), 'Downloads/Library/Developer/Platforms/')
     platforms = model['mcus']
     files = []
     for platform in platforms:
         files += ['Platforms/' + platform['mcu'] + '.platform']
         installPlatforms('X-ARM Platform for ' + platform['mcu'], PLAT_DIR, files)
+
+    # install periphery support
+    model = {'mcus': model['mcus']}
+    model = {'peripheries': supported_peripheries()}
+    files = ['Templates/XarmBasic/main.c']
+    FILE_DIR = os.path.join(os.path.expanduser('~'), 'Downloads/Library/Developer/Xcode/Templates/File Templates/X-ARM/XarmPeriphery.xctemplate/')
+    installTemplates('X-ARM Files', FILE_DIR, files)
 
     os.remove('Makefile')
     os.remove('TemplateInfo.plist')

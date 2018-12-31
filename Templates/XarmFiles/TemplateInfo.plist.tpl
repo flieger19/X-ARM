@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Kind</key>
+	<string>Xcode.IDEFoundation.TextSubstitutionFileTemplateKind</string>
+	<key>Description</key>
+	<string>Add periphery to cortex-m project</string>
+	<key>Summary</key>
+	<string>Add periphery to cortex-m project</string>
+	<key>SorterOrder</key>
+	<integer>1</integer>
+	<key>AllowedTypes</key>
+	<array>
+		<string>public.c-header</string>
+		<string>public.c-source</string>
+	</array>
+	<key>DefaultCompletionName</key>
+	<string></string>
+	<key>MainTemplateFile</key>
+	<string></string>
+	<key>Options</key>
+	<array>
+		<dict>
+			<key>Default</key>
+			<string>___VARIABLE_MCU___</string>
+			<key>Description</key>
+			<string>Microcontroller</string>
+			<key>Identifier</key>
+			<string>MICROCONTROLLER</string>
+			<key>Name</key>
+			<string>Microcontroller</string>
+			<key>SortOrder</key>
+			<integer>1</integer>
+			<key>Type</key>
+			<string>popup</string>
+			<key>Units</key>
+			<dict>
+				<key>stm32f0xx</key>
+				<dict>
+					<key>Project</key>
+					<dict>
+						<key>Configurations</key>
+						<dict>
+							<key>Debug</key>
+							<dict>
+								<key>GCC_PREPROCESSOR_DEFINITIONS</key>
+								<string>DEBUG=1, MCPU=cortex-m0, PTYPE=STM32F0XX_MD</string>
+								<key>OTHER_LINKER_FLAGS</key>
+								<string>-lSTM32F0XX</string>
+							</dict>
+							<key>Release</key>
+							<dict>
+								<key>GCC_PREPROCESSOR_DEFINITIONS</key>
+								<string>MCPU=cortex-m0, PTYPE=STM32F0XX_MD</string>
+								<key>OTHER_LINKER_FLAGS</key>
+								<string>-lSTM32F0XX</string>
+							</dict>
+						</dict>
+					</dict>
+				</dict>
+			</dict>
+		</dict>
+		<dict>
+			<key>Default</key>
+			<string>rcc</string>
+			<key>Description</key>
+			<string>Periphery</string>
+			<key>Identifier</key>
+			<string>PERIPHERY</string>
+			<key>Name</key>
+			<string>Periphery</string>
+			<key>SortOrder</key>
+			<integer>2</integer>
+			<key>Type</key>
+			<string>popup</string>
+			<key>Units</key>
+			<dict>
+				<key>st-link</key>
+				<dict/>
+			</dict>
+		</dict>
+	</array>
+</dict>
+</plist>

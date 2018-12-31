@@ -79,14 +79,13 @@ EXTRAINCDIRS =
 #  -Wall...:     warning level
 #  -Wa,...:      tell GCC to pass this to the assembler.
 #    -adhlns...: create assembler listing
-CFLAGS = -g$(DEBUG)
-CFLAGS += -O$(OPT)
-CFLAGS += -mcpu=cortex-m0 -mthumb
+CFLAGS += -mthumb
 CFLAGS += -Wall
-CFLAGS += -I$(HEADER_SEARCH_PATHS)
+CFLAGS += $(patsubst %,-I%,$(HEADER_SEARCH_PATHS))
 CFLAGS += $(patsubst %,-I%,$(EXTRAINCDIRS))
 CFLAGS += $(CSTANDARD)
-CFLAGS += -DSTM32F0XX_MD -DUSE_STDPERIPH_DRIVER -DUSE_FULL_ASSERT
+CFLAGS += -DUSE_STDPERIPH_DRIVER -DUSE_FULL_ASSERT
+CFLAGS += $(LIBRARIEN_SOURCES)
 
 #---------------- Assembler Options ----------------
 #  -Wa,...:   tell GCC to pass this to the assembler.
@@ -101,7 +100,7 @@ ASFLAGS =
 
 #---------------- Library Options ----------------
 #  import Xcode library flags
-LDLIBS = $(OTHER_LINKER_FLAGS)
+LDLIBS =
 
 #---------------- Linker Options ----------------
 #  define linker script
@@ -112,15 +111,15 @@ LDSCRIPT = LDScript.ld
 #    -Map:      create map file
 #    --cref:    add cross reference to  map file
 LDFLAGS += -T$(LDSCRIPT)
-LDFLAGS += -mthumb -mcpu=cortex-m0
-LDFLAGS += -L$(LIBRARY_SEARCH_PATHS)
+LDFLAGS += -mthumb
+LDFLAGS += $(OTHER_LINKER_FLAGS)
 LDFLAGS += $(patsubst %,-L%,$(EXTRAINCDIRS))
 
 #---------------- Programming Options ----------------
 
 #---------------- Debugging Options ----------------
 # GDB Init Filename.
-GDBINIT_FILE = __avr_gdbinit
+GDBINIT_FILE = __arm_gdbinit
 
 # Debugging port used to communicate between GDB / avarice / simulavr.
 DEBUG_PORT = 4242
