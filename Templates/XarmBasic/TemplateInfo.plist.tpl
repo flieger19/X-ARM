@@ -192,6 +192,10 @@
 			<string>popup</string>
 			<key>Units</key>
 			<dict>
+                
+                
+                
+                @iter mcus@
 				<key>{mcu}</key>
 				<dict>
 					<key>Project</key>
@@ -215,6 +219,11 @@
 						</dict>
 					</dict>
 				</dict>
+                
+                @end@
+                
+                
+                
 			</dict>
 		</dict>
 	</array>

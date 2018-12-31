@@ -1,5 +1,5 @@
 /*
-Linker script for ___VARIABLE_MICROCONTROLLER____128K_8K
+Linker script for ___VARIABLE_MCU____128K_8K
 
 modified from
 

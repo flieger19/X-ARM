@@ -76,10 +76,10 @@ def create_platform(family, sources_dir, destination_dir):
     include_dir = 'Include'
     source_dir = 'Source'
 
-    core_include_dir = destination_dir + 'XX.platform/include/core'
-    core_source_dir = destination_dir + 'XX.platform/src/core'
-    periphery_include_dir = destination_dir + 'XX.platform/include/periphery'
-    periphery_source_dir = destination_dir + 'XX.platform/src/periphery'
+    core_include_dir = destination_dir + '.platform/include/core'
+    core_source_dir = destination_dir + '.platform/src/core'
+    periphery_include_dir = destination_dir + '.platform/include/periphery'
+    periphery_source_dir = destination_dir + '.platform/src/periphery'
     
     mkdirs_p(core_include_dir)
     mkdirs_p(core_source_dir)
@@ -116,11 +116,11 @@ def create_platform(family, sources_dir, destination_dir):
 
 
 def supported_mcus(library_dir):
-    print('Searching for supported mcu libraries...')
+    print('Searching for supported mcus libraries...')
     
     BUILD_DIR = 'Platforms'
     
-    families = ['STM32F0', 'STM32F1', 'STM32F2', 'STM32F3', 'STM32F4', 'STM32L1']
+    families = ['STM32F0XX', 'STM32F1XX', 'STM32F2XX', 'STM32F3XX', 'STM32F4XX', 'STM32L1XX']
     
     subdirs = [name for name in os.listdir(library_dir) if os.path.isdir(os.path.join(library_dir, name))]
 
@@ -130,12 +130,30 @@ def supported_mcus(library_dir):
 
     for subdir in subdirs:
         for family in families:
-            if family in subdir:
-                mcus += [family]
-                destination_dir = BUILD_DIR + '/' + family
-                create_platform(family, library_dir + '/' + subdir + '/', destination_dir)
+            if family[:7] in subdir:
+                mcus.append({'mcu': family.lower()})
+                destination_dir = BUILD_DIR + '/' + family.lower()
+                create_platform(family[:7], library_dir + '/' + subdir + '/', destination_dir)
 
     return mcus
+
+
+def supported_cpus(mcus):
+    print('setting supported cpus libraries...')
+    
+    families = ['stm32f0xx', 'stm32f1xx', 'stm32f2xx', 'stm32f3xx', 'stm32f4xx', 'stm32l1xx']
+    cores = ['cortex-m0', 'cortex-m3', 'cortex-m3', 'cortex-m4', 'cortex-m4', 'cortex-m3']
+
+    cpus = []
+    counter = 0
+    
+    for family in families:
+        for mcu in mcus:
+            if family in mcu:
+                cpus.append({'cpu': cores[counter]})
+        counter += 1
+
+    return cpus
 
 
 def supported_programmers():
@@ -241,13 +259,21 @@ def main(argv):
 
     # check microcontroler support
     model = {'mcus': supported_mcus(LIBRARY_DIR)}
-    exec_template('Templates/XarmBasic/TemplateInfo.plist.tpl', 'TemplateInfo.plist', model)
-    
+    print(model['mcus'])
     print('Generated template:\n\tMCUs        : {}'.format(len(model['mcus'])))
+    exec_template('Templates/XarmBasic/TemplateInfo.plist.tpl', 'TemplateInfo.plist', model)
+
+    platforms = model['mcus']
+    MCUS = []
+    for platform in platforms:
+        MCUS.append({'flag': platform.upper()})
+    model = {'flags': MCUS}
+
+    model = {'cpus': supported_cpus(platforms)}
 
     #DEST_DIR = os.path.join(os.path.expanduser('~'),
     #'Library/Developer/Xcode/Templates/Project Template/xavr/xavr.xctemplate/')
-    files = ['Templates/XarmBasic/main.c', 'Makefile', 'TemplateInfo.plist', 'Resouces/TemplateIcon.png', 'Resouces/TemplateIcon@2x.png']
+    files = ['Templates/XarmBasic/main.c', 'Templates/XarmBasic/startup____VARIABLE_MCU___.c', 'Templates/XarmBasic/system____VARIABLE_MCU___.c', 'Templates/XarmBasic/___VARIABLE_MCU____conf.h', 'Makefile', 'TemplateInfo.plist', 'Resouces/TemplateIcon.png', 'Resouces/TemplateIcon@2x.png']
     PROJ_DIR = os.path.join(os.path.expanduser('~'), 'Downloads/Library/Developer/Xcode/Templates/Project Templates/X-ARM/XarmBasic.xctemplate/')
     installTemplates('X-ARM Basic', PROJ_DIR, files)
 
@@ -256,10 +282,10 @@ def main(argv):
     installTemplates('X-ARM Files', FILE_DIR, files)
 
     PLAT_DIR = os.path.join(os.path.expanduser('~'), 'Downloads/Library/Developer/Platforms/')
-    Platforms = model['mcus']
+    platforms = model['mcus']
     files = []
-    for platform in Platforms:
-        files += ['Platforms/' + platform + 'XX.platform']
+    for platform in platforms:
+        files += ['Platforms/' + platform + '.platform']
         installPlatforms('X-ARM Platform', PLAT_DIR, files)
 
     os.remove('Makefile')
