@@ -205,14 +205,14 @@
 							<key>Debug</key>
 							<dict>
 								<key>CFLAGS</key>
-								<string>-g -O0 -mcpu={mcpu} -D{MCU}_MD</string>
+								<string>-g -O0 -mcpu={mcpu} -D{flag}_MD</string>
 								<key>OTHER_LINKER_FLAGS</key>
 								<string>-mcpu={mcpu}</string>
 							</dict>
 							<key>Release</key>
 							<dict>
 								<key>GCC_PREPROCESSOR_DEFINITIONS</key>
-								<string>-O2 -mcpu={mcpu} -D{MCU}_MD</string>
+								<string>-O2 -mcpu={mcpu} -D{flag}_MD</string>
 								<key>OTHER_LINKER_FLAGS</key>
 								<string>-mcpu={mcpu}</string>
 							</dict>

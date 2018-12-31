@@ -57,14 +57,6 @@ def exec_template(from_template, to, model):
                     output.write(line.format(**model))
 
 
-def mcu_to_def(mcu):
-    defi = mcu.upper()
-    families = ['stm32f0', 'stm32f1', 'stm32f2', 'stm32f3', 'stm32f4', 'stm32l1']
-    for family in families:
-        defi = defi.replace(family, family.lower())
-    return '__AVR_' + defi + '__'
-
-
 def create_platform(family, sources_dir, destination_dir):
     print('Creating platforms for supported mcu...')
     
@@ -115,6 +107,23 @@ def create_platform(family, sources_dir, destination_dir):
             copy_file(source, periphery_source_dir)
 
 
+def supported_cpus(mcu):
+    print('setting supported cpus libraries...')
+    
+    families = ['stm32f0xx', 'stm32f1xx', 'stm32f2xx', 'stm32f3xx', 'stm32f4xx', 'stm32l1xx']
+    cores = ['cortex-m0', 'cortex-m3', 'cortex-m3', 'cortex-m4', 'cortex-m4', 'cortex-m3']
+    
+    mcpu = ''
+    counter = 0
+    
+    for family in families:
+        if family in mcu:
+            mcpu =  cores[counter]
+        counter += 1
+    
+    return mcpu
+
+
 def supported_mcus(library_dir):
     print('Searching for supported mcus libraries...')
     
@@ -131,29 +140,11 @@ def supported_mcus(library_dir):
     for subdir in subdirs:
         for family in families:
             if family[:7] in subdir:
-                mcus.append({'mcu': family.lower()})
+                mcus.append({'mcu': family.lower(), 'flag': family, 'mcpu': supported_cpus(family.lower())})
                 destination_dir = BUILD_DIR + '/' + family.lower()
                 create_platform(family[:7], library_dir + '/' + subdir + '/', destination_dir)
 
     return mcus
-
-
-def supported_cpus(mcus):
-    print('setting supported cpus libraries...')
-    
-    families = ['stm32f0xx', 'stm32f1xx', 'stm32f2xx', 'stm32f3xx', 'stm32f4xx', 'stm32l1xx']
-    cores = ['cortex-m0', 'cortex-m3', 'cortex-m3', 'cortex-m4', 'cortex-m4', 'cortex-m3']
-
-    cpus = []
-    counter = 0
-    
-    for family in families:
-        for mcu in mcus:
-            if family in mcu:
-                cpus.append({'cpu': cores[counter]})
-        counter += 1
-
-    return cpus
 
 
 def supported_programmers():
@@ -205,17 +196,17 @@ def options(argv):
     directory = ''
 
     if argv == []:
-        print 'usage: setup.py -L <microcontroller library dir>'
+        print 'usage: setup.py -L <LIBRARY_DIR>'
         sys.exit(2)
     
     try:
         opts, args = getopt.getopt(argv,"L:h",["Library=","help"])
     except getopt.GetoptError:
-        print 'usage: setup.py -L <microcontroller library dir>'
+        print 'usage: setup.py -L <LIBRARY_DIR>'
         sys.exit(2)
     for opt, arg in opts:
         if opt in ("-h", "--help"):
-            print 'usage: setup.py -L <microcontroller library dir>'
+            print 'usage: setup.py -L <LIBRARY_DIR>'
             sys.exit()
         elif opt in ("-L", "--Library"):
             directory = arg
@@ -247,29 +238,20 @@ def main(argv):
     
     # check tool chain
     model = {}
-    STM32CubeMX = '/Applications/STMicroelectronics/STM32CubeMX.app/Contents/MacOs/STM32CubeMX'
-    tools = ['arm-none-eabi-gcc', 'arm-none-eabi-gcc', 'arm-none-eabi-ar', 'arm-none-eabi-as', 'arm-none-eabi-objcopy', 'arm-none-eabi-objdump', 'arm-none-eabi-size', 'arm-none-eabi-nm', 'arm-none-eabi-gdb', 'st-flash', 'st-info', 'st-util', STM32CubeMX]
+    os.system('export PATH=$PATH:/Applications/STMicroelectronics/STM32CubeMX.app/Contents/MacOs/')
+    tools = ['arm-none-eabi-gcc', 'arm-none-eabi-gcc', 'arm-none-eabi-ar', 'arm-none-eabi-as', 'arm-none-eabi-objcopy', 'arm-none-eabi-objdump', 'arm-none-eabi-size', 'arm-none-eabi-nm', 'arm-none-eabi-gdb', 'st-flash', 'st-info', 'st-util', 'STM32CubeMX']
     for tool in tools:
         model[tool + '_loc'] = ensure_installed(tool)
     
-    print(model[STM32CubeMX + '_loc'])
+    #print(model[STM32CubeMX + '_loc'])
 
     # build XarmBasic.xctemplate
     exec_template('Templates/XarmBasic/Makefile.tpl', 'Makefile', model)
 
     # check microcontroler support
     model = {'mcus': supported_mcus(LIBRARY_DIR)}
-    print(model['mcus'])
     print('Generated template:\n\tMCUs        : {}'.format(len(model['mcus'])))
     exec_template('Templates/XarmBasic/TemplateInfo.plist.tpl', 'TemplateInfo.plist', model)
-
-    platforms = model['mcus']
-    MCUS = []
-    for platform in platforms:
-        MCUS.append({'flag': platform.upper()})
-    model = {'flags': MCUS}
-
-    model = {'cpus': supported_cpus(platforms)}
 
     #DEST_DIR = os.path.join(os.path.expanduser('~'),
     #'Library/Developer/Xcode/Templates/Project Template/xavr/xavr.xctemplate/')
@@ -285,8 +267,8 @@ def main(argv):
     platforms = model['mcus']
     files = []
     for platform in platforms:
-        files += ['Platforms/' + platform + '.platform']
-        installPlatforms('X-ARM Platform', PLAT_DIR, files)
+        files += ['Platforms/' + platform['mcu'] + '.platform']
+        installPlatforms('X-ARM Platform for ' + platform['mcu'], PLAT_DIR, files)
 
     os.remove('Makefile')
     os.remove('TemplateInfo.plist')
