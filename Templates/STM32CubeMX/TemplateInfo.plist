@@ -14,7 +14,7 @@
 	<integer>1</integer>
 	<key>Platforms</key>
 	<array>
-		<string>com.apple.platform.macosx</string>
+		<string>de.cdullo.platform.STM32CubeMX</string>
 	</array>
 	<key>AllowedTypes</key>
 	<array>
