@@ -72,16 +72,6 @@
 		</dict>
 		<dict>
 			<key>Name</key>
-			<string>Upload</string>
-			<key>TargetType</key>
-			<string>Legacy</string>
-			<key>BuildToolPath</key>
-			<string>make</string>
-			<key>BuildToolArgsString</key>
-			<string>program -C &quot;$(PROJECT)&quot;</string>
-		</dict>
-		<dict>
-			<key>Name</key>
 			<string>Clean</string>
 			<key>TargetType</key>
 			<string>Legacy</string>
