@@ -41,11 +41,11 @@
 			<key>PATH</key>
 			<string>$(PATH):$(PROJECT_DIR)</string>
 			<key>HEADER_SEARCH_PATHS</key>
-			<string>$(HOME)/Library/Developer/Xcode/Templates/Project\ Templates/xarm/xarm.xctemplate/include</string>
+			<string>$(SYSROOT)/usr/include $(PROJECT_DIR)/$(PROJECT_NAME)/Inc $(PROJECT_DIR)/$(PROJECT_NAME)/Drivers/CMSIS/Include $(PROJECT_DIR)/$(PROJECT_NAME)/Drivers/$(MCU_FAMILY)_HAL_Driver/Inc $(PROJECT_DIR)/$(PROJECT_NAME)/Drivers/STM32F4xx_HAL_Driver/Inc/Legacy $(PROJECT_DIR)/$(PROJECT_NAME)/Drivers/CMSIS/Device/ST/$(MCU_FAMILY)/Include</string>
 			<key>LIBRARY_SEARCH_PATHS</key>
-			<string>$(HOME)/Library/Developer/Xcode/Templates/Project\ Templates/xarm/xarm.xctemplate/lib</string>
+			<string>$(SYSROOT)/usr/lib</string>
 			<key>PRODUCT_NAME</key>
-			<string>$(TARGET_NAME)</string>
+			<string>$(PROJECT_NAME)</string>
 		</dict>
 	</dict>
 	<key>Targets</key>
