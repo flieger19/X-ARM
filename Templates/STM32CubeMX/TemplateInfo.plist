@@ -105,7 +105,7 @@
 	<array>
 		<dict>
 			<key>Default</key>
-			<string>stm32f0xx</string>
+			<string>STM32F446XX</string>
 			<key>Description</key>
 			<string>Microcontroller</string>
 			<key>Identifier</key>
@@ -118,48 +118,38 @@
 			<string>popup</string>
 			<key>Units</key>
 			<dict>
-				<key>stm32f0xx</key>
+				<key>STM32F446XX</key>
 				<dict>
 					<key>Project</key>
 					<dict>
+						<key>SharedSettings</key>
+						<dict>
+							<key>SYSROOT</key>
+							<string>$(HOME)/Library/Developer/Platforms/Cortex-M4.platform/Developer/SDKs/Cortex-M4.sdk</string>
+						</dict>
 						<key>Configurations</key>
 						<dict>
 							<key>Debug</key>
 							<dict>
-								<key>GCC_PREPROCESSOR_DEFINITIONS</key>
-								<string>DEBUG=1, MCPU=cortex-m0, PTYPE=STM32F0XX_MD</string>
-								<key>OTHER_LINKER_FLAGS</key>
-								<string>-lSTM32F0XX</string>
+								<key>OTHER_CFLAGS</key>
+								<string>-target armv7em-none-eabi -mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard -DUSE_HAL_DRIVER -DSTM32F446xx -Og -g -gdwarf-2</string>
+								<key>OTHER_LDFLAGS</key>
+								<string>-target armv7em-none-eabi -mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard -specs=nano.specs -T $(SRCROOT)/$(PROJECT_NAME)/STM32F446RETx_FLASH.ld</string>
+								<key>MCU_FAMILY</key>
+								<string>STM32F4xx</string>
 							</dict>
 							<key>Release</key>
 							<dict>
-								<key>GCC_PREPROCESSOR_DEFINITIONS</key>
-								<string>MCPU=cortex-m0, PTYPE=STM32F0XX_MD</string>
-								<key>OTHER_LINKER_FLAGS</key>
-								<string>-lSTM32F0XX</string>
+								<key>OTHER_CFLAGS</key>
+								<string>-target armv7em-none-eabi -mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard -DUSE_HAL_DRIVER -DSTM32F446xx -O2</string>
+								<key>OTHER_LDFLAGS</key>
+								<string>-target armv7em-none-eabi -mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard -specs=nano.specs -T $(SRCROOT)/$(PROJECT_NAME)/STM32F446RETx_FLASH.ld</string>
+								<key>MCU_FAMILY</key>
+								<string>STM32F4xx</string>
 							</dict>
 						</dict>
 					</dict>
 				</dict>
-			</dict>
-		</dict>
-		<dict>
-			<key>Default</key>
-			<string>st-link</string>
-			<key>Description</key>
-			<string>Programmer</string>
-			<key>Identifier</key>
-			<string>PROGRAMMER</string>
-			<key>Name</key>
-			<string>Programmer</string>
-			<key>SortOrder</key>
-			<integer>2</integer>
-			<key>Type</key>
-			<string>popup</string>
-			<key>Units</key>
-			<dict>
-				<key>st-link</key>
-				<dict/>
 			</dict>
 		</dict>
 	</array>
