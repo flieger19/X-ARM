@@ -55,3 +55,7 @@ def install():
     templates = ["STM32CubeMX"]
 
     install_templates(templates)
+
+
+if __name__ == "__main__":
+    install()
