@@ -46,3 +46,9 @@ def install_templates(templates):
     for template in templates:
         install_files(destination_directory + template, os.listdir(templates_directory + template))
         install_files(destination_directory + template, icons)
+
+
+def install():
+    """
+    Install package files
+    """
