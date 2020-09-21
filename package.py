@@ -38,3 +38,11 @@ def install_templates(templates):
     Installs the Xcode templates in the Xcode template user dir
     :param templates: List of templates to install
     """
+    destination_directory = os.path.expanduser('~') + "/Library/Developer/Xcode/Templates/Project Templates/X-ARM/"
+    templates_directory = ROOT_DIR + "/Templates/"
+    resource_directory = ROOT_DIR + "/Resources/"
+    icons = [resource_directory + "TemplateIcon.png", resource_directory + "TemplateIcon@2x.png"]
+
+    for template in templates:
+        install_files(destination_directory + template, os.listdir(templates_directory + template))
+        install_files(destination_directory + template, icons)
