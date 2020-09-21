@@ -259,7 +259,7 @@ def main(argv):
     exec_template('Templates/XarmBasic/TemplateInfo.plist.tpl', 'TemplateInfo.plist', model)
 
     # install project template
-    files = ['Templates/XarmBasic/main.c', 'Templates/XarmBasic/___VARIABLE_MCU____startup.c', 'Templates/XarmBasic/___VARIABLE_MCU____system.c', 'Templates/XarmBasic/___VARIABLE_MCU____conf.h', 'Makefile', 'TemplateInfo.plist', 'Resouces/TemplateIcon.png', 'Resouces/TemplateIcon@2x.png']
+    files = ['Templates/XarmBasic/main.c', 'Templates/XarmBasic/___VARIABLE_MCU____startup.c', 'Templates/XarmBasic/___VARIABLE_MCU____system.c', 'Templates/XarmBasic/___VARIABLE_MCU____conf.h', 'Makefile', 'TemplateInfo.plist', 'Resources/TemplateIcon.png', 'Resources/TemplateIcon@2x.png']
     PROJ_DIR = os.path.join(os.path.expanduser('~'), 'Library/Developer/Xcode/Templates/Project Templates/X-ARM/XarmBasic.xctemplate/')
     installTemplates('X-ARM Basic', PROJ_DIR, files)
 
