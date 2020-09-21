@@ -44,7 +44,10 @@ def install_templates(templates):
     icons = [resource_directory + "TemplateIcon.png", resource_directory + "TemplateIcon@2x.png"]
 
     for template in templates:
-        install_files(destination_directory + template, os.listdir(templates_directory + template))
+        files = []
+        for file in os.listdir(templates_directory + template):
+            files += [templates_directory + template + "/" + file]
+        install_files(destination_directory + template, files)
         install_files(destination_directory + template, icons)
 
 
