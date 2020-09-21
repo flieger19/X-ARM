@@ -6,6 +6,7 @@ Documentation, License etc.
 
 import shutil
 import os
+import sys
 
 
 def install_files(destination, files):
@@ -21,4 +22,9 @@ def install_files(destination, files):
             print("Creation of the directory %s failed" % destination)
 
     for file_name in files:
-        shutil.copy(file_name, destination)
+        try:
+            shutil.copy(file_name, destination)
+        except IOError as error:
+            print("Unable to copy file. %s" % error)
+        except:
+            print("Unexpected error:", sys.exc_info())
