@@ -52,3 +52,6 @@ def install():
     """
     Install package files
     """
+    templates = ["STM32CubeMX"]
+
+    install_templates(templates)
