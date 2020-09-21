@@ -9,6 +9,9 @@ import os
 import sys
 
 
+ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
+
+
 def install_files(destination, files):
     """
     Install files in a given directory
@@ -28,3 +31,10 @@ def install_files(destination, files):
             print("Unable to copy file. %s" % error)
         except:
             print("Unexpected error:", sys.exc_info())
+
+
+def install_templates(templates):
+    """
+    Installs the Xcode templates in the Xcode template user dir
+    :param templates: List of templates to install
+    """
