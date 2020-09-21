@@ -5,6 +5,7 @@ Documentation, License etc.
 """
 
 import shutil
+import os
 
 
 def install_files(destination, files):
@@ -13,3 +14,11 @@ def install_files(destination, files):
     :param destination: Directory to install files to
     :param files: Files to install in a given directory
     """
+    if not os.path.isdir(destination):
+        try:
+            os.makedirs(destination)
+        except OSError:
+            print("Creation of the directory %s failed" % destination)
+
+    for file_name in files:
+        shutil.copy(file_name, destination)
