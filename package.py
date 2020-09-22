@@ -56,6 +56,19 @@ def install_sdk_files(destination_directory):
     Installs the header, library, etc. files to the SDK
     :param destination_directory: Destination directory for the files
     """
+    source_directory = "/usr/local/Cellar/armv7em-cortex-m4f/10.0.0/armv7em-none-eabi/cortex-m4f/"
+    include_directory = "include/"
+    library_directory = "lib/"
+    destination_directory = destination_directory + "/usr/"
+
+    files = []
+    for file in os.listdir(source_directory + include_directory):
+        files += [source_directory + include_directory + file]
+    install_files(destination_directory + include_directory, files)
+    files = []
+    for file in os.listdir(source_directory + library_directory):
+        files += [source_directory + library_directory + file]
+    install_files(destination_directory + library_directory, files)
 
 
 def install_sdk(source_directory, destination_directory):
