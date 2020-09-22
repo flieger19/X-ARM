@@ -59,15 +59,16 @@ def directory_iterator(source, target):
     """
     for file in os.listdir(source):
         filename = os.fsdecode(file)
-        path_source = source + bytes("/", 'utf-8') + file
-        path_target = target + bytes("/", 'utf-8') + file
+        path_source = source + "/" + file
+        path_target = target + "/" + file
         if os.path.isdir(path_source):
             try:
                 os.makedirs(os.fsdecode(path_target))
             except OSError:
                 print("Creation of the directory %s failed" % os.fsdecode(path_target))
-            directory_iterator(os.fsencode(path_source), os.fsencode(path_target))
+            directory_iterator(os.fsdecode(path_source), os.fsdecode(path_target))
         elif os.path.isfile(path_source):
+            print(path_source, path_target)
             try:
                 os.symlink(path_source, path_target)
             except:
@@ -93,14 +94,16 @@ def install_sdk_files(destination_directory):
     library_directory = "lib/"
     destination_directory = destination_directory + "/usr/"
 
-    files = []
-    for file in os.listdir(source_directory + include_directory):
-        files += [source_directory + include_directory + file]
-    install_files(destination_directory + include_directory, files)
-    files = []
-    for file in os.listdir(source_directory + library_directory):
-        files += [source_directory + library_directory + file]
-    install_files(destination_directory + library_directory, files)
+    try:
+        os.makedirs(destination_directory + include_directory)
+    except OSError:
+        print("Creation of the directory %s failed" % destination_directory + include_directory)
+    try:
+        os.makedirs(destination_directory + library_directory)
+    except OSError:
+        print("Creation of the directory %s failed" % destination_directory + library_directory)
+    directory_iterator(source_directory + include_directory, destination_directory + include_directory)
+    directory_iterator(source_directory + library_directory, destination_directory + library_directory)
 
 
 def install_sdk(source_directory, destination_directory):
