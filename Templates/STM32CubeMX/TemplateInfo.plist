@@ -125,7 +125,7 @@
 						<key>SharedSettings</key>
 						<dict>
 							<key>SYSROOT</key>
-							<string>$(HOME)/Library/Developer/Platforms/Cortex-M4.platform/Developer/SDKs/Cortex-M4.sdk</string>
+							<string>$(HOME)/Library/Developer/Platforms/Cortex-M4F.platform/Developer/SDKs/Cortex-M4F.sdk</string>
 						</dict>
 						<key>Configurations</key>
 						<dict>

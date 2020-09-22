@@ -78,13 +78,14 @@ def install_sdk(source_directory, destination_directory):
     :param destination_directory: Destination directory of the SDK
     """
     source_directory = source_directory + "/sdk/"
-    destination_directory_version = destination_directory + "/Developer/SDKs/Cortex-M410.0.0.sdk"
-    destination_directory = destination_directory + "/Developer/SDKs/Cortex-M4.sdk"
+    destination_directory_version = destination_directory + "/Developer/SDKs/Cortex-M4F10.0.0.sdk"
+    destination_directory = destination_directory + "/Developer/SDKs/Cortex-M4F.sdk"
 
     files = []
     for file in os.listdir(source_directory):
         files += [source_directory + "/" + file]
     install_files(destination_directory, files)
+    install_sdk_files(destination_directory)
     try:
         os.symlink(destination_directory, destination_directory_version)
     except:
@@ -105,9 +106,9 @@ def install_platform(platforms):
         files = []
         for file in os.listdir(platforms_directory + platform + "/platform"):
             files += [platforms_directory + platform + "/platform/" + file]
-        install_files(destination_directory + "/" + platform, files)
-        install_files(destination_directory + "/" + platform, icons)
-        install_sdk(platforms_directory + platform, destination_directory + "/" + platform)
+        install_files(destination_directory + "/" + platform + ".platform", files)
+        install_files(destination_directory + "/" + platform + ".platform", icons)
+        install_sdk(platforms_directory + platform, destination_directory + "/" + platform + ".platform")
 
 
 def install():
