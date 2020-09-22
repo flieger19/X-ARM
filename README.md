@@ -1,6 +1,10 @@
 # X-ARM
 Xcode template for embedded arm cortex-m development.
 
+## Supported Microcontrollers
+
+* STM32F446XX
+
 ## Installation
 
 First install the `gcc-arm-embedded` compiler:
@@ -9,25 +13,27 @@ First install the `gcc-arm-embedded` compiler:
 brew cask install gcc-arm-embedded
 ```
 
+For productive work I recommend tu use [STM32CubeMX](https://www.st.com/content/st_com/en/products/development-tools/software-development-tools/stm32-software-development-tools/stm32-configurators-and-code-generators/stm32cubemx.html?dl=WsUg5BCPxrokFsK%2BpOHSVA%3D%3D%2CmQRYt8yKNxo%2FwAoONeoLKfw9w830P%2F7Wjgxx%2FiYethdUjXTYLxDF1iIhKXe7FBlPnTz8rQJ8ymZ%2BRrIEsapA2JbwEXnxeJp%2FIgA1feBEU0D9qR0Mv077yAHN6IJDLaueXW5qtn4sU02LRLjt5DpeYRlNRwqaSWmmtqleJG6bXVXPF7JDwzQPKJHxkSoUsWcLAs2ej7imqid4nsEe0biSwQ15iiTTmpSHr4hWHGawiM94dER%2Bn3l%2BjpOHqsU5k7q95L2eqmyL2cnj0snCSgylOL6%2Fmn7qwwsIEZkDsXIS3F2IJRmbNZweji23xNJlHHINknlrhtw4p9bLAi5cri5J%2FQ%3D%3D) 
+
 Clone the repository or download `.zip` archive. 
 
-For the basic template the [STM32 Standard Peripheral Libraries](https://www.st.com/en/embedded-software/stm32-standard-peripheral-libraries.html?querycriteria=productId=LN1939) is needed. Please extract them to a separate directory, which will be called `LIBRARY_DIR` in the following text. 
 Next execute the following command:
 
 ```bash
-python setup.py -L path_to_LIBRARY_DIR
+python3 package.py
 ```
 
-The `setup.py` script wil install its files in `~/Library/Developer/` and the corresponding subdirectories.
+The `package.py` script wil install its files in `~/Library/Developer/` and the corresponding subdirectories.
 
 ## Usage
 
-### X-ARM Basic Template
+### STM32CubeMX Template
 
+Start with a new Xcode Project:
 * launch Xcode
 * create a new project
-* under **macOS** move to **X-ARM**
-* select the **X-ARM Basic** template
+* under **Multiplatform** move to **X-ARM**
+* select the **STM32CubeMX** template
 * click **Next**
 * enter a project name 
 * choose your **MCU**
@@ -35,16 +41,17 @@ The `setup.py` script wil install its files in `~/Library/Developer/` and the co
 * choose a directory where to save the project
 * click **Create**
 
-### X-ARM File Template
+Add STM32CubeMX project tot he previously create Xcode project:
+* launch STM32CubeMX
+* create a new project with one of the supported microcontrollers
+* Save the project insight the previously created Xcode project 
+* Run the code generation for a makefile project
 
-If the periphery of your cortex-m should be activated, the **X-ARM File Template** is needed. 
+Add the generated files to the Xcode project
+* Add all generated source files including the make and linker file to the Xcode project
+* Add all source files to the Build Phase settings Compile Sources of the Index target
+* Build the Index target.
 
-* while in a **X-ARM Basic**
-* create a new file
+You should now be able to use the Xcode project as usual.
 
-**NOTE: THIS TEMPLATE IS NOT IMPLEMENTED YET**
-
-## Future
-
-For a future release [STM32CubeMX](https://www.st.com/content/st_com/en/products/development-tools/software-development-tools/stm32-software-development-tools/stm32-configurators-and-code-generators/stm32cubemx.html?dl=WsUg5BCPxrokFsK%2BpOHSVA%3D%3D%2CmQRYt8yKNxo%2FwAoONeoLKfw9w830P%2F7Wjgxx%2FiYethdUjXTYLxDF1iIhKXe7FBlPnTz8rQJ8ymZ%2BRrIEsapA2JbwEXnxeJp%2FIgA1feBEU0D9qR0Mv077yAHN6IJDLaueXW5qtn4sU02LRLjt5DpeYRlNRwqaSWmmtqleJG6bXVXPF7JDwzQPKJHxkSoUsWcLAs2ej7imqid4nsEe0biSwQ15iiTTmpSHr4hWHGawiM94dER%2Bn3l%2BjpOHqsU5k7q95L2eqmyL2cnj0snCSgylOL6%2Fmn7qwwsIEZkDsXIS3F2IJRmbNZweji23xNJlHHINknlrhtw4p9bLAi5cri5J%2FQ%3D%3D)  is needed.
-
+**NOTE:** This template has now debugging function. To debug please use `st-util` in combination with the `arm-none-eabi-gdb` or `lldb`
