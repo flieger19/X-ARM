@@ -47,8 +47,9 @@ def install_templates(templates):
         files = []
         for file in os.listdir(templates_directory + template):
             files += [templates_directory + template + "/" + file]
-        install_files(destination_directory + template, files)
-        install_files(destination_directory + template, icons)
+        install_files(destination_directory + template + ".xctemplate", files)
+        install_files(destination_directory + template + ".xctemplate", icons)
+
 
 def install_platform(platforms):
     """
