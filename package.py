@@ -105,7 +105,7 @@ def install():
 
     install_templates(templates)
 
-    platforms = ["Cortex-M4"]
+    platforms = ["Cortex-M4F"]
 
     install_platform(platforms)
 
