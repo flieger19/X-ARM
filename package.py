@@ -76,6 +76,10 @@ def install():
 
     install_templates(templates)
 
+    platforms = ["Cortex-M4"]
+
+    install_platform(platforms)
+
 
 if __name__ == "__main__":
     install()
