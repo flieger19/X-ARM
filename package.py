@@ -184,6 +184,14 @@ def install():
     """
     Install package files
     """
+    # check tool chain
+    model = {}
+    tools = ['arm-none-eabi-gcc', 'arm-none-eabi-gcc', 'arm-none-eabi-ar', 'arm-none-eabi-as', 'arm-none-eabi-objcopy',
+             'arm-none-eabi-objdump', 'arm-none-eabi-size', 'arm-none-eabi-nm', 'arm-none-eabi-gdb', 'st-flash',
+             'st-info', 'st-util', 'STM32CubeMX', 'lld']
+    for tool in tools:
+        model[tool] = ensure_installed(tool)
+
     templates = ["STM32CubeMX"]
 
     install_templates(templates)
