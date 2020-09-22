@@ -7,6 +7,7 @@ Documentation, License etc.
 import shutil
 import os
 import sys
+import subprocess
 
 
 ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -160,6 +161,14 @@ def install_platform(platforms):
         install_files(destination_directory + "/" + platform + ".platform", files)
         install_files(destination_directory + "/" + platform + ".platform", icons)
         install_sdk(platforms_directory + platform, destination_directory + "/" + platform + ".platform")
+
+
+def ensure_installed(tool):
+    """
+    Checks if a given tool is installed and in PATH
+    :param tool: Tool to check if installed and in PATH
+    :return: Full path of the tool
+    """
 
 
 def install():
