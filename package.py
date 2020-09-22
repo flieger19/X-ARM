@@ -69,7 +69,6 @@ def directory_iterator(source, target):
                 print("Creation of the directory %s failed" % os.fsdecode(path_target))
             directory_iterator(os.fsdecode(path_source), os.fsdecode(path_target))
         elif os.path.isfile(path_source):
-            print(path_source, path_target)
             try:
                 os.symlink(path_source, path_target)
             except:
