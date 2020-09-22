@@ -5,7 +5,7 @@
 	<key>Kind</key>
 	<string>Xcode.Xcode3.ProjectTemplateUnitKind</string>
 	<key>Identifier</key>
-	<string>de.cdullo.XarmCube.xcode4.template</string>
+	<string>de.cdullo.STM32CubeMX.xcode4.template</string>
 	<key>Concrete</key>
 	<true/>
 	<key>Description</key>
@@ -14,52 +14,18 @@
 	<integer>1</integer>
 	<key>Platforms</key>
 	<array>
-		<string>com.apple.platform.macosx</string>
+		<string>de.cdullo.platform.STM32CubeMX</string>
 	</array>
 	<key>AllowedTypes</key>
 	<array>
 		<string>public.c-header</string>
 		<string>public.c-source</string>
+		<string>public.c-plus-plus-header</string>
+		<string>public.c-plus-plus-source</string>
 	</array>
 	<key>Ancestors</key>
 	<array>
 		<string>com.apple.dt.unit.base</string>
-	</array>
-	<key>Definitions</key>
-	<dict>
-		<key>main.c</key>
-		<dict>
-			<key>Path</key>
-			<string>main.c</string>
-		</dict>
-		<key>Makefile</key>
-		<dict>
-			<key>Path</key>
-			<string>Makefile</string>
-			<key>Group</key>
-			<array>
-				<string>Makefiles</string>
-			</array>
-			<key>TargetIndices</key>
-			<array/>
-		</dict>
-		<key>LDScript.ld</key>
-		<dict>
-			<key>Path</key>
-			<string>LDScript.ld</string>
-			<key>Group</key>
-			<array>
-				<string>Scripts</string>
-			</array>
-			<key>TargetIndices</key>
-			<array/>
-		</dict>
-	</dict>
-	<key>Nodes</key>
-	<array>
-		<string>main.c</string>
-		<string>Makefile</string>
-		<string>LDScript.ld</string>
 	</array>
 	<key>Project</key>
 	<dict>
@@ -75,11 +41,11 @@
 			<key>PATH</key>
 			<string>$(PATH):$(PROJECT_DIR)</string>
 			<key>HEADER_SEARCH_PATHS</key>
-			<string>$(HOME)/Library/Developer/Xcode/Templates/Project\ Templates/xarm/xarm.xctemplate/include</string>
+			<string>$(SYSROOT)/usr/include $(PROJECT_DIR)/$(PROJECT_NAME)/Inc $(PROJECT_DIR)/$(PROJECT_NAME)/Drivers/CMSIS/Include $(PROJECT_DIR)/$(PROJECT_NAME)/Drivers/$(MCU_FAMILY)_HAL_Driver/Inc $(PROJECT_DIR)/$(PROJECT_NAME)/Drivers/STM32F4xx_HAL_Driver/Inc/Legacy $(PROJECT_DIR)/$(PROJECT_NAME)/Drivers/CMSIS/Device/ST/$(MCU_FAMILY)/Include</string>
 			<key>LIBRARY_SEARCH_PATHS</key>
-			<string>$(HOME)/Library/Developer/Xcode/Templates/Project\ Templates/xarm/xarm.xctemplate/lib</string>
+			<string>$(SYSROOT)/usr/lib</string>
 			<key>PRODUCT_NAME</key>
-			<string>$(TARGET_NAME)</string>
+			<string>$(PROJECT_NAME)</string>
 		</dict>
 	</dict>
 	<key>Targets</key>
@@ -103,16 +69,6 @@
 			<string>make</string>
 			<key>BuildToolArgsString</key>
 			<string>build -C &quot;$(PROJECT)&quot;</string>
-		</dict>
-		<dict>
-			<key>Name</key>
-			<string>Upload</string>
-			<key>TargetType</key>
-			<string>Legacy</string>
-			<key>BuildToolPath</key>
-			<string>make</string>
-			<key>BuildToolArgsString</key>
-			<string>program -C &quot;$(PROJECT)&quot;</string>
 		</dict>
 		<dict>
 			<key>Name</key>
@@ -149,7 +105,7 @@
 	<array>
 		<dict>
 			<key>Default</key>
-			<string>stm32f0xx</string>
+			<string>STM32F446XX</string>
 			<key>Description</key>
 			<string>Microcontroller</string>
 			<key>Identifier</key>
@@ -162,48 +118,38 @@
 			<string>popup</string>
 			<key>Units</key>
 			<dict>
-				<key>stm32f0xx</key>
+				<key>STM32F446XX</key>
 				<dict>
 					<key>Project</key>
 					<dict>
+						<key>SharedSettings</key>
+						<dict>
+							<key>SYSROOT</key>
+							<string>$(HOME)/Library/Developer/Platforms/Cortex-M4F.platform/Developer/SDKs/Cortex-M4F.sdk</string>
+						</dict>
 						<key>Configurations</key>
 						<dict>
 							<key>Debug</key>
 							<dict>
-								<key>GCC_PREPROCESSOR_DEFINITIONS</key>
-								<string>DEBUG=1, MCPU=cortex-m0, PTYPE=STM32F0XX_MD</string>
-								<key>OTHER_LINKER_FLAGS</key>
-								<string>-lSTM32F0XX</string>
+								<key>OTHER_CFLAGS</key>
+								<string>-target armv7em-none-eabi -mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard -DUSE_HAL_DRIVER -DSTM32F446xx -Og -g -gdwarf-2</string>
+								<key>OTHER_LDFLAGS</key>
+								<string>-target armv7em-none-eabi -mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard -specs=nano.specs -T $(SRCROOT)/$(PROJECT_NAME)/STM32F446RETx_FLASH.ld $(SYSROOT)/usr/lib/crti.o</string>
+								<key>MCU_FAMILY</key>
+								<string>STM32F4xx</string>
 							</dict>
 							<key>Release</key>
 							<dict>
-								<key>GCC_PREPROCESSOR_DEFINITIONS</key>
-								<string>MCPU=cortex-m0, PTYPE=STM32F0XX_MD</string>
-								<key>OTHER_LINKER_FLAGS</key>
-								<string>-lSTM32F0XX</string>
+								<key>OTHER_CFLAGS</key>
+								<string>-target armv7em-none-eabi -mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard -DUSE_HAL_DRIVER -DSTM32F446xx -O2</string>
+								<key>OTHER_LDFLAGS</key>
+								<string>-target armv7em-none-eabi -mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard -specs=nano.specs -T $(SRCROOT)/$(PROJECT_NAME)/STM32F446RETx_FLASH.ld $(SYSROOT)/usr/lib/crti.o</string>
+								<key>MCU_FAMILY</key>
+								<string>STM32F4xx</string>
 							</dict>
 						</dict>
 					</dict>
 				</dict>
-			</dict>
-		</dict>
-		<dict>
-			<key>Default</key>
-			<string>st-link</string>
-			<key>Description</key>
-			<string>Programmer</string>
-			<key>Identifier</key>
-			<string>PROGRAMMER</string>
-			<key>Name</key>
-			<string>Programmer</string>
-			<key>SortOrder</key>
-			<integer>2</integer>
-			<key>Type</key>
-			<string>popup</string>
-			<key>Units</key>
-			<dict>
-				<key>st-link</key>
-				<dict/>
 			</dict>
 		</dict>
 	</array>
