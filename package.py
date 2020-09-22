@@ -55,6 +55,17 @@ def install_platform(platforms):
     Install Xcode platform in the Xcode platform user dir
     :param platforms: List of platforms to install
     """
+    destination_directory = os.path.expanduser('~') + "/Library/Developer/Platforms"
+    platforms_directory = ROOT_DIR + "/Platforms/"
+    resource_directory = ROOT_DIR + "/Resources/"
+    icons = [resource_directory + "Icon.icns"]
+
+    for platform in platforms:
+        files = []
+        for file in os.listdir(platforms_directory + platform + "/platform"):
+            files += [platforms_directory + platform + "/platform/" + file]
+        install_files(destination_directory + "/" + platform, files)
+        install_files(destination_directory + "/" + platform, icons)
 
 
 def install():
