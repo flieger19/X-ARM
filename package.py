@@ -51,6 +51,14 @@ def install_templates(templates):
         install_files(destination_directory + template + ".xctemplate", icons)
 
 
+def directory_iterator(source, target):
+    """
+    Iterates through a directory and symlinks all containing files in a target director with the same structure
+    :param source: Directory to iterate through
+    :param target: Directory to symlink files to
+    """
+
+
 def install_sdk_files(destination_directory):
     """
     Installs the header, library, etc. files to the SDK
