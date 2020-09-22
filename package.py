@@ -57,6 +57,18 @@ def install_sdk(source_directory, destination_directory):
     :param source_directory: Source directory of the SDK
     :param destination_directory: Destination directory of the SDK
     """
+    source_directory = source_directory + "/sdk/"
+    destination_directory_version = destination_directory + "/Developer/SDKs/Cortex-M410.0.0.sdk"
+    destination_directory = destination_directory + "/Developer/SDKs/Cortex-M4.sdk"
+
+    files = []
+    for file in os.listdir(source_directory):
+        files += [source_directory + "/" + file]
+    install_files(destination_directory, files)
+    try:
+        os.symlink(destination_directory, destination_directory_version)
+    except:
+        print("Symlink Error")
 
 
 def install_platform(platforms):
@@ -75,6 +87,7 @@ def install_platform(platforms):
             files += [platforms_directory + platform + "/platform/" + file]
         install_files(destination_directory + "/" + platform, files)
         install_files(destination_directory + "/" + platform, icons)
+        install_sdk(platforms_directory + platform, destination_directory + "/" + platform)
 
 
 def install():
