@@ -169,7 +169,7 @@ def ensure_installed(tool):
     :param tool: Tool to check if installed and in PATH
     :return: Full path of the tool
     """
-    proc = subprocess.Popen('which ' + tool, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
+    proc = subprocess.Popen('export PATH=$PATH:/Applications/STMicroelectronics/STM32CubeMX.app/Contents/MacOs/:/usr/local/opt/arm-none-eabi-llvm/bin/ && which ' + tool, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
     out, err = proc.communicate()
     exitcode = proc.returncode
     if exitcode == 0:
