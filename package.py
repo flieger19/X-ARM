@@ -51,6 +51,14 @@ def install_templates(templates):
         install_files(destination_directory + template + ".xctemplate", icons)
 
 
+def install_sdk(source_directory, destination_directory):
+    """
+    Installs Xcode SDK inside its corresponding platform in the Xcode platform user dir
+    :param source_directory: Source directory of the SDK
+    :param destination_directory: Destination directory of the SDK
+    """
+
+
 def install_platform(platforms):
     """
     Install Xcode platform in the Xcode platform user dir
