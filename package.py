@@ -95,6 +95,9 @@ def install_sdk_files(destination_directory):
     destination_directory = destination_directory + "/usr/"
     library_compiler_rt = "libclang_rt.builtins-"
 
+    gcc_dir = "/usr/local/Caskroom/gcc-arm-embedded/9-2020-q2-update/gcc-arm-none-eabi-9-2020-q2-update/bin/../lib/gcc/arm-none-eabi/9.3.1/thumb/v7e-m+fp/hard/"
+    crti_object_file = "crti.o"
+
     try:
         os.makedirs(destination_directory + include_directory)
     except OSError:
@@ -112,6 +115,11 @@ def install_sdk_files(destination_directory):
                 os.symlink(destination_directory + library_directory + file, destination_directory + library_directory + file + ".a")
             except:
                 print("Symlink Error")
+
+    try:
+        os.symlink(gcc_dir + crti_object_file, destination_directory + library_directory + crti_object_file)
+    except:
+        print("Symlink Error")
 
 
 def install_sdk(source_directory, destination_directory):
