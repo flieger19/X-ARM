@@ -93,6 +93,7 @@ def install_sdk_files(destination_directory):
     include_directory = "include/"
     library_directory = "lib/"
     destination_directory = destination_directory + "/usr/"
+    library_compiler_rt = "libclang_rt.builtins-"
 
     try:
         os.makedirs(destination_directory + include_directory)
@@ -104,6 +105,13 @@ def install_sdk_files(destination_directory):
         print("Creation of the directory %s failed" % destination_directory + library_directory)
     directory_iterator(source_directory + include_directory, destination_directory + include_directory)
     directory_iterator(source_directory + library_directory, destination_directory + library_directory)
+
+    for file in os.listdir(destination_directory + library_directory):
+        if library_compiler_rt in file:
+            try:
+                os.symlink(destination_directory + library_directory + file, destination_directory + library_directory + file + ".a")
+            except:
+                print("Symlink Error")
 
 
 def install_sdk(source_directory, destination_directory):
