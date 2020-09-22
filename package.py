@@ -80,7 +80,7 @@ def install_sdk(source_directory, destination_directory):
 
 def install_platform(platforms):
     """
-    Install Xcode platform in the Xcode platform user dir
+    Installs Xcode platform in the Xcode platform user dir
     :param platforms: List of platforms to install
     """
     destination_directory = os.path.expanduser('~') + "/Library/Developer/Platforms"
