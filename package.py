@@ -50,6 +50,12 @@ def install_templates(templates):
         install_files(destination_directory + template, files)
         install_files(destination_directory + template, icons)
 
+def install_platform(platforms):
+    """
+    Install Xcode platform in the Xcode platform user dir
+    :param platforms: List of platforms to install
+    """
+
 
 def install():
     """
