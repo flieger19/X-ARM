@@ -51,6 +51,13 @@ def install_templates(templates):
         install_files(destination_directory + template + ".xctemplate", icons)
 
 
+def install_sdk_files(destination_directory):
+    """
+    Installs the header, library, etc. files to the SDK
+    :param destination_directory: Destination directory for the files
+    """
+
+
 def install_sdk(source_directory, destination_directory):
     """
     Installs Xcode SDK inside its corresponding platform in the Xcode platform user dir
