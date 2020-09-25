@@ -10,5 +10,7 @@
 	    <true/>
         <key>Description</key>
         <string>This template builds an STM32CubeMX Makefile project using the native Xcode llvm toolchain</string>
+        <key>SorterOrder</key>
+	    <integer>1</integer>
     </dict>
 </plist>
