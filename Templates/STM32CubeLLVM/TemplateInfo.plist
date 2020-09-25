@@ -12,5 +12,9 @@
         <string>This template builds an STM32CubeMX Makefile project using the native Xcode llvm toolchain</string>
         <key>SorterOrder</key>
 	    <integer>1</integer>
+        <key>Platforms</key>
+        <array>
+            <string>de.cdullo.platform.STM32CubeLLVM</string>
+        </array>
     </dict>
 </plist>
