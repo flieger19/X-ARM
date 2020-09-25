@@ -70,6 +70,7 @@
                 <key>BuildToolArgsString</key>
                 <string>build -C &quot;$(HOME)/Library/Developer/Xcode/Templates/Project\ Templates/X-ARM/STM32CubeLLVM.xctemplate/&quot;</string>
             </dict>
+            <dict>
                 <key>Name</key>
                 <string>Upload</string>
                 <key>TargetType</key>
