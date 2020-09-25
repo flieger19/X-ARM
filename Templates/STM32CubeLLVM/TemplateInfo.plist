@@ -4,5 +4,7 @@
     <dict>
         <key>Kind</key>
         <string>Xcode.Xcode3.ProjectTemplateUnitKind</string>
+        <key>Identifier</key>
+	    <string>de.cdullo.STM32CubeLLVM.xcode4.template</string>
     </dict>
 </plist>
