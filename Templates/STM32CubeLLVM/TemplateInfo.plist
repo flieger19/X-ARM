@@ -6,5 +6,7 @@
         <string>Xcode.Xcode3.ProjectTemplateUnitKind</string>
         <key>Identifier</key>
 	    <string>de.cdullo.STM32CubeLLVM.xcode4.template</string>
+        <key>Concrete</key>
+	    <true/>
     </dict>
 </plist>
