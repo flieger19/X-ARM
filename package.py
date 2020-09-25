@@ -191,7 +191,7 @@ def install():
     for tool in tools:
         model[tool] = ensure_installed(tool)
 
-    templates = ["STM32CubeMX"]
+    templates = ["STM32CubeMX", "STM32CubeLLVM"]
 
     install_templates(templates)
 
