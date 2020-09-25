@@ -23,5 +23,9 @@
             <string>public.c-plus-plus-header</string>
             <string>public.c-plus-plus-source</string>
         </array>
+        <key>Ancestors</key>
+        <array>
+            <string>com.apple.dt.unit.base</string>
+        </array>
     </dict>
 </plist>
