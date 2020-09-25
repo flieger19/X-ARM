@@ -27,5 +27,26 @@
         <array>
             <string>com.apple.dt.unit.base</string>
         </array>
+        <key>Project</key>
+        <dict>
+            <key>Configurations</key>
+            <dict>
+                <key>Debug</key>
+                <dict/>
+                <key>Release</key>
+                <dict/>
+            </dict>
+            <key>SharedSettings</key>
+            <dict>
+                <key>PATH</key>
+                <string>$(PATH):$(PROJECT_DIR)</string>
+                <key>HEADER_SEARCH_PATHS</key>
+                <string>$(SYSROOT)/usr/include $(PROJECT_DIR)/$(PROJECT_NAME)/Inc $(PROJECT_DIR)/$(PROJECT_NAME)/Drivers/CMSIS/Include $(PROJECT_DIR)/$(PROJECT_NAME)/Drivers/$(MCU_FAMILY)_HAL_Driver/Inc $(PROJECT_DIR)/$(PROJECT_NAME)/Drivers/STM32F4xx_HAL_Driver/Inc/Legacy $(PROJECT_DIR)/$(PROJECT_NAME)/Drivers/CMSIS/Device/ST/$(MCU_FAMILY)/Include</string>
+                <key>LIBRARY_SEARCH_PATHS</key>
+                <string>$(SYSROOT)/usr/lib</string>
+                <key>PRODUCT_NAME</key>
+                <string>$(PROJECT_NAME)</string>
+            </dict>
+        </dict>
     </dict>
 </plist>
