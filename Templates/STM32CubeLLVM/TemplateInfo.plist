@@ -48,5 +48,67 @@
                 <string>$(PROJECT_NAME)</string>
             </dict>
         </dict>
+        <key>Targets</key>
+        <array>
+            <dict>
+                <key>Name</key>
+                <string>All</string>
+                <key>BuildToolPath</key>
+                <string>make</string>
+                <key>TargetType</key>
+                <string>Legacy</string>
+                <key>BuildToolArgsString</key>
+                <string>all -C &quot;$(HOME)/Library/Developer/Xcode/Templates/Project\ Templates/X-ARM/STM32CubeLLVM.xctemplate/&quot;</string>
+            </dict>
+            <dict>
+                <key>Name</key>
+                <string>Build</string>
+                <key>TargetType</key>
+                <string>Legacy</string>
+                <key>BuildToolPath</key>
+                <string>make</string>
+                <key>BuildToolArgsString</key>
+                <string>build -C &quot;$(HOME)/Library/Developer/Xcode/Templates/Project\ Templates/X-ARM/STM32CubeLLVM.xctemplate/&quot;</string>
+            </dict>
+                <key>Name</key>
+                <string>Upload</string>
+                <key>TargetType</key>
+                <string>Legacy</string>
+                <key>BuildToolPath</key>
+                <string>make</string>
+                <key>BuildToolArgsString</key>
+                <string>build -C &quot;$(HOME)/Library/Developer/Xcode/Templates/Project\ Templates/X-ARM/STM32CubeLLVM.xctemplate/&quot;</string>
+            </dict>
+            <dict>
+                <key>Name</key>
+                <string>Clean</string>
+                <key>TargetType</key>
+                <string>Legacy</string>
+                <key>BuildToolPath</key>
+                <string>make</string>
+                <key>BuildToolArgsString</key>
+                <string>clean -C &quot;$(HOME)/Library/Developer/Xcode/Templates/Project\ Templates/X-ARM/STM32CubeLLVM.xctemplate/&quot;</string>
+            </dict>
+            <dict>
+                <key>ProductType</key>
+                <string>com.apple.product-type.tool</string>
+                <key>Name</key>
+                <string>Index</string>
+                <key>Configurations</key>
+                <dict>
+                    <key>Debug</key>
+                    <dict/>
+                    <key>Release</key>
+                    <dict/>
+                </dict>
+                <key>BuildPhases</key>
+                <array>
+                    <dict>
+                        <key>Class</key>
+                        <string>Sources</string>
+                    </dict>
+                </array>
+            </dict>
+        </array>
     </dict>
 </plist>
