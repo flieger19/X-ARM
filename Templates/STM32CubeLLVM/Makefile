@@ -6,8 +6,10 @@
 #
 
 FMODULES_CACHE_PATH = $(HOME)/Library/Developer/Xcode/DerivedData/ModuleCache.noindex
+FBUILD_SESSION_FILE = Session.modulevalidation
 
 # default action: build all
 all:
 	echo "BUILD ALL"
 	echo $(FMODULES_CACHE_PATH)
+	echo $(FBUILD_SESSION_FILE)
