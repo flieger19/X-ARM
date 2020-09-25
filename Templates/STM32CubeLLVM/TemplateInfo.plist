@@ -16,5 +16,12 @@
         <array>
             <string>de.cdullo.platform.STM32CubeLLVM</string>
         </array>
+        <key>AllowedTypes</key>
+        <array>
+            <string>public.c-header</string>
+            <string>public.c-source</string>
+            <string>public.c-plus-plus-header</string>
+            <string>public.c-plus-plus-source</string>
+        </array>
     </dict>
 </plist>
