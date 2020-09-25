@@ -8,5 +8,7 @@
 	    <string>de.cdullo.STM32CubeLLVM.xcode4.template</string>
         <key>Concrete</key>
 	    <true/>
+        <key>Description</key>
+        <string>This template builds an STM32CubeMX Makefile project using the native Xcode llvm toolchain</string>
     </dict>
 </plist>
