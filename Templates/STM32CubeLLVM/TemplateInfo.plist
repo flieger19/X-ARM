@@ -110,5 +110,57 @@
                 </array>
             </dict>
         </array>
+        <key>Options</key>
+        <array>
+            <dict>
+                <key>Default</key>
+                <string>STM32F446XX</string>
+                <key>Description</key>
+                <string>Microcontroller</string>
+                <key>Identifier</key>
+                <string>MICROCONTROLLER</string>
+                <key>Name</key>
+                <string>Microcontroller</string>
+                <key>SortOrder</key>
+                <integer>1</integer>
+                <key>Type</key>
+                <string>popup</string>
+                <key>Units</key>
+                <dict>
+                    <key>STM32F446XX</key>
+                    <dict>
+                        <key>Project</key>
+                        <dict>
+                            <key>SharedSettings</key>
+                            <dict>
+                                <key>SYSROOT</key>
+                                <string>$(HOME)/Library/Developer/Platforms/Cortex-M4F.platform/Developer/SDKs/Cortex-M4F.sdk</string>
+                            </dict>
+                            <key>Configurations</key>
+                            <dict>
+                                <key>Debug</key>
+                                <dict>
+                                    <key>OTHER_CFLAGS</key>
+                                    <string>-target armv7em-none-eabi -mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard -DUSE_HAL_DRIVER -DSTM32F446xx -Og -g -gdwarf-2</string>
+                                    <key>OTHER_LDFLAGS</key>
+                                    <string>-target armv7em-none-eabi -mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard -specs=nano.specs -T $(SRCROOT)/$(PROJECT_NAME)/STM32F446RETx_FLASH.ld $(SYSROOT)/usr/lib/crti.o</string>
+                                    <key>MCU_FAMILY</key>
+                                    <string>STM32F4xx</string>
+                                </dict>
+                                <key>Release</key>
+                                <dict>
+                                    <key>OTHER_CFLAGS</key>
+                                    <string>-target armv7em-none-eabi -mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard -DUSE_HAL_DRIVER -DSTM32F446xx -O2</string>
+                                    <key>OTHER_LDFLAGS</key>
+                                    <string>-target armv7em-none-eabi -mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard -specs=nano.specs -T $(SRCROOT)/$(PROJECT_NAME)/STM32F446RETx_FLASH.ld $(SYSROOT)/usr/lib/crti.o</string>
+                                    <key>MCU_FAMILY</key>
+                                    <string>STM32F4xx</string>
+                                </dict>
+                            </dict>
+                        </dict>
+                    </dict>
+                </dict>
+            </dict>
+        </array>
     </dict>
 </plist>
