@@ -10,10 +10,10 @@ FMODULES_CACHE_PATH = $(HOME)/Library/Developer/Xcode/DerivedData/ModuleCache.no
 FBUILD_SESSION_FILE = Session.modulevalidation
 INDEX_DIR = $(BUILD_ROOT)/../../Index/
 INDEX_STORE_PATH = $(INDEX_DIR)/DataStore
-GENERATED_FILES = $(OBJROOT)/xCubeTest.build/Debug/Index.build/xCubeTest-generated-files.hmap
-OWN_TARGET_HEADERS = $(OBJROOT)/xCubeTest.build/Debug/Index.build/xCubeTest-own-target-headers.hmap
-ALL_TARGET_HEADERS = $(OBJROOT)/xCubeTest.build/Debug/Index.build/xCubeTest-all-target-headers.hmap
-PROJECT_HEADERS = $(OBJROOT)/xCubeTest.build/Debug/Index.build/xCubeTest-project-headers.hmap
+GENERATED_FILES = $(TARGET_TEMP_DIR)/$(PROJECT_NAME)-generated-files.hmap
+OWN_TARGET_HEADERS = $(TARGET_TEMP_DIR)/$(PROJECT_NAME)-own-target-headers.hmap
+ALL_TARGET_HEADERS = $(TARGET_TEMP_DIR)/$(PROJECT_NAME)-all-target-headers.hmap
+PROJECT_HEADERS = $(TARGET_TEMP_DIR)/$(PROJECT_NAME)-project-headers.hmap
 
 # binary definitions
 CC = $(TOOLCHAIN_DIR)/usr/bin/clang
