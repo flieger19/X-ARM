@@ -149,10 +149,12 @@
                                     <string>armv7em-none-eabi</string>
                                     <key>CPU_TYPE</key>
                                     <string>cortex-m4</string>
+                                    <key>CPU_MODE</key>
+                                    <string>thumb</string>
                                     <key>OTHER_CFLAGS</key>
-                                    <string>-target $(TARGET) -mcpu=$(CPU_TYPE) -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard -DUSE_HAL_DRIVER -D$(MCU_TYPE) -Og -g -gdwarf-2</string>
+                                    <string>-target $(TARGET) -mcpu=$(CPU_TYPE) -m$(CPU_MODE) -mfpu=fpv4-sp-d16 -mfloat-abi=hard -DUSE_HAL_DRIVER -D$(MCU_TYPE) -Og -g -gdwarf-2</string>
                                     <key>OTHER_LDFLAGS</key>
-                                    <string>-target $(TARGET) -mcpu=$(CPU_TYPE) -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard -specs=nano.specs -T $(SRCROOT)/$(PROJECT_NAME)/STM32F446RETx_FLASH.ld $(SYSROOT)/usr/lib/crti.o</string>
+                                    <string>-target $(TARGET) -mcpu=$(CPU_TYPE) -m$(CPU_MODE) -mfpu=fpv4-sp-d16 -mfloat-abi=hard -specs=nano.specs -T $(SRCROOT)/$(PROJECT_NAME)/STM32F446RETx_FLASH.ld $(SYSROOT)/usr/lib/crti.o</string>
                                 </dict>
                                 <key>Release</key>
                                 <dict>
@@ -164,10 +166,12 @@
                                     <string>armv7em-none-eabi</string>
                                     <key>CPU_TYPE</key>
                                     <string>cortex-m4</string>
+                                    <key>CPU_MODE</key>
+                                    <string>thumb</string>
                                     <key>OTHER_CFLAGS</key>
-                                    <string>-target $(TARGET) -mcpu=$(CPU_TYPE) -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard -DUSE_HAL_DRIVER -D$(MCU_TYPE) -O2</string>
+                                    <string>-target $(TARGET) -mcpu=$(CPU_TYPE) -m$(CPU_MODE) -mfpu=fpv4-sp-d16 -mfloat-abi=hard -DUSE_HAL_DRIVER -D$(MCU_TYPE) -O2</string>
                                     <key>OTHER_LDFLAGS</key>
-                                    <string>-target $(TARGET) -mcpu=$(CPU_TYPE) -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard -specs=nano.specs -T $(SRCROOT)/$(PROJECT_NAME)/STM32F446RETx_FLASH.ld $(SYSROOT)/usr/lib/crti.o</string>
+                                    <string>-target $(TARGET) -mcpu=$(CPU_TYPE) -m$(CPU_MODE) -mfpu=fpv4-sp-d16 -mfloat-abi=hard -specs=nano.specs -T $(SRCROOT)/$(PROJECT_NAME)/STM32F446RETx_FLASH.ld $(SYSROOT)/usr/lib/crti.o</string>
                                 </dict>
                             </dict>
                         </dict>
