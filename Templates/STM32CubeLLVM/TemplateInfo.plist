@@ -156,8 +156,12 @@
                                 <string>$(HOME)/Library/Developer/Platforms/Cortex-M4F.platform/Developer/SDKs/Cortex-M4F.sdk</string>
                                 <key>OTHER_CFLAGS</key>
                                 <string>-target $(TARGET) -mcpu=$(CPU_TYPE) -m$(CPU_MODE) -mfpu=$(FPU_TYPE) -mfloat-abi=$(FPU_MODE) $(OTHER_DEFINES) -D$(MCU_TYPE)</string>
+                                <key>SPECS</key>
+                                <string>nano.specs</string>
+                                <key>LDSCRIPT</key>
+                                <string>STM32F446RETx_FLASH.ld</string>
                                 <key>OTHER_LDFLAGS</key>
-                                <string>-target $(TARGET) -mcpu=$(CPU_TYPE) -m$(CPU_MODE) -mfpu=$(FPU_TYPE) -mfloat-abi=ha$(FPU_MODE)rd -specs=nano.specs -T $(SRCROOT)/$(PROJECT_NAME)/STM32F446RETx_FLASH.ld $(SYSROOT)/usr/lib/crti.o</string>
+                                <string>-target $(TARGET) -mcpu=$(CPU_TYPE) -m$(CPU_MODE) -mfpu=$(FPU_TYPE) -mfloat-abi=ha$(FPU_MODE) -specs=$(SPECS) -T $(SRCROOT)/$(PROJECT_NAME)/$(LDSCRIPT) $(SYSROOT)/usr/lib/crti.o</string>
                             </dict>
                             <key>Configurations</key>
                             <dict>
