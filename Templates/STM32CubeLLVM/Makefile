@@ -9,4 +9,4 @@ include definition.make
 
 # default action: build all
 all:
-	echo $(CFLAGS)
+	echo $(CCFLAGS)
