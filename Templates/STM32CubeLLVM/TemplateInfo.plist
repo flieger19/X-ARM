@@ -141,25 +141,29 @@
                             <dict>
                                 <key>Debug</key>
                                 <dict>
-                                    <key>OTHER_CFLAGS</key>
-                                    <string>-target armv7em-none-eabi -mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard -DUSE_HAL_DRIVER -D$(MCU_TYPE) -Og -g -gdwarf-2</string>
-                                    <key>OTHER_LDFLAGS</key>
-                                    <string>-target armv7em-none-eabi -mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard -specs=nano.specs -T $(SRCROOT)/$(PROJECT_NAME)/STM32F446RETx_FLASH.ld $(SYSROOT)/usr/lib/crti.o</string>
                                     <key>MCU_FAMILY</key>
                                     <string>STM32F4xx</string>
                                     <key>MCU_TYPE</key>
                                     <string>STM32F446xx</string>
+                                    <key>CPU_TYPE</key>
+                                    <string>cortex-m4</string>
+                                    <key>OTHER_CFLAGS</key>
+                                    <string>-target armv7em-none-eabi -mcpu=$(CPU_TYPE) -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard -DUSE_HAL_DRIVER -D$(MCU_TYPE) -Og -g -gdwarf-2</string>
+                                    <key>OTHER_LDFLAGS</key>
+                                    <string>-target armv7em-none-eabi -mcpu=$(CPU_TYPE) -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard -specs=nano.specs -T $(SRCROOT)/$(PROJECT_NAME)/STM32F446RETx_FLASH.ld $(SYSROOT)/usr/lib/crti.o</string>
                                 </dict>
                                 <key>Release</key>
                                 <dict>
-                                    <key>OTHER_CFLAGS</key>
-                                    <string>-target armv7em-none-eabi -mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard -DUSE_HAL_DRIVER -D$(MCU_TYPE) -O2</string>
-                                    <key>OTHER_LDFLAGS</key>
-                                    <string>-target armv7em-none-eabi -mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard -specs=nano.specs -T $(SRCROOT)/$(PROJECT_NAME)/STM32F446RETx_FLASH.ld $(SYSROOT)/usr/lib/crti.o</string>
                                     <key>MCU_FAMILY</key>
                                     <string>STM32F4xx</string>
                                     <key>MCU_TYPE</key>
                                     <string>STM32F446xx</string>
+                                    <key>CPU_TYPE</key>
+                                    <string>cortex-m4</string>
+                                    <key>OTHER_CFLAGS</key>
+                                    <string>-target armv7em-none-eabi -mcpu=$(CPU_TYPE) -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard -DUSE_HAL_DRIVER -D$(MCU_TYPE) -O2</string>
+                                    <key>OTHER_LDFLAGS</key>
+                                    <string>-target armv7em-none-eabi -mcpu=$(CPU_TYPE) -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard -specs=nano.specs -T $(SRCROOT)/$(PROJECT_NAME)/STM32F446RETx_FLASH.ld $(SYSROOT)/usr/lib/crti.o</string>
                                 </dict>
                             </dict>
                         </dict>
