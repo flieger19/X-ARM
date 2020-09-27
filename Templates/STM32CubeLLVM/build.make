@@ -18,3 +18,7 @@ vpath %.c $(sort $(dir $(CPP_SOURCES)))
 # list of ASM program objects
 OBJECTS += $(addprefix $(INTERMEDIATE_DIR)/,$(notdir $(ASM_SOURCES:.s=.o)))
 vpath %.s $(sort $(dir $(ASM_SOURCES)))
+
+$(BUILD_DIR)/$(CONFIGURATION)/$(PROJECT_NAME).elf: $(OBJECTS) Makefile
+	$(CC) $(LDFLAGS) $(OBJECTS) -o $@
+	$(SZ) $@
