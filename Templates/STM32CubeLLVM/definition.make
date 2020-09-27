@@ -37,5 +37,8 @@ SZ = $(TOOLCHAIN_DIR)/usr/bin/llvm-size
 HEX = $(CP) -O ihex
 BIN = $(CP) -O binary -S
 
+setup:
+	mkdir -p $(INTERMEDIATE_DIR)
+
 include ccflags.make
 include ldflags.make
