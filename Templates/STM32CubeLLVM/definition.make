@@ -26,3 +26,4 @@ HEX = $(CP) -O ihex
 BIN = $(CP) -O binary -S
 
 include ccflags.make
+include ldflags.make
