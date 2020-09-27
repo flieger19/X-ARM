@@ -12,8 +12,8 @@ OBJECTS += $(addprefix $(INTERMEDIATE_DIR)/,$(notdir $(C_SOURCES:.c=.o)))
 vpath %.c $(sort $(dir $(C_SOURCES)))
 
 # list of cpp program objects
-OBJECTS += $(addprefix $(INTERMEDIATE_DIR)/,$(notdir $(CPP_SOURCES:.c=.o)))
-vpath %.c $(sort $(dir $(CPP_SOURCES)))
+OBJECTS += $(addprefix $(INTERMEDIATE_DIR)/,$(notdir $(CPP_SOURCES:.cpp=.o)))
+vpath %.cpp $(sort $(dir $(CPP_SOURCES)))
 
 # list of ASM program objects
 OBJECTS += $(addprefix $(INTERMEDIATE_DIR)/,$(notdir $(ASM_SOURCES:.s=.o)))
