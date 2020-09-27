@@ -161,7 +161,7 @@
                                 <key>LDSCRIPT</key>
                                 <string>STM32F446RETx_FLASH.ld</string>
                                 <key>OTHER_LDFLAGS</key>
-                                <string>-target $(TARGET) -mcpu=$(CPU_TYPE) -m$(CPU_MODE) -mfpu=$(FPU_TYPE) -mfloat-abi=ha$(FPU_MODE) -specs=$(SPECS) -T $(SRCROOT)/$(PROJECT_NAME)/$(LDSCRIPT) $(SYSROOT)/usr/lib/crti.o</string>
+                                <string>-target $(TARGET) -mcpu=$(CPU_TYPE) -m$(CPU_MODE) -mfpu=$(FPU_TYPE) -mfloat-abi=$(FPU_MODE) -specs=$(SPECS) -T $(SRCROOT)/$(PROJECT_NAME)/$(LDSCRIPT) $(SYSROOT)/usr/lib/crti.o</string>
                             </dict>
                             <key>Configurations</key>
                             <dict>
