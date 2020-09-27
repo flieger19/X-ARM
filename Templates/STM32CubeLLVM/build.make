@@ -19,6 +19,15 @@ vpath %.c $(sort $(dir $(CPP_SOURCES)))
 OBJECTS += $(addprefix $(INTERMEDIATE_DIR)/,$(notdir $(ASM_SOURCES:.s=.o)))
 vpath %.s $(sort $(dir $(ASM_SOURCES)))
 
+$(INTERMEDIATE_DIR)/%.o: %.c Makefile
+	$(CC) $(CCFLAGS) -MF $(INTERMEDIATE_DIR)/$*.d --serialize-diagnostics $(INTERMEDIATE_DIR)/$*.dia -c $< -o $@
+
+$(INTERMEDIATE_DIR)/%.o: %.cpp Makefile
+	$(CXX) $(CCFLAGS) -MF $(INTERMEDIATE_DIR)/$*.d --serialize-diagnostics $(INTERMEDIATE_DIR)/$*.dia -c $< -o $@
+
+$(INTERMEDIATE_DIR)/%.o: %.s Makefile
+	$(AS) $(CCFLAGS) -MF $(INTERMEDIATE_DIR)/$*.d --serialize-diagnostics $(INTERMEDIATE_DIR)/$*.dia -c $< -o $@
+
 $(BUILD_DIR)/$(CONFIGURATION)/$(PROJECT_NAME).elf: $(OBJECTS) Makefile
 	$(CC) $(LDFLAGS) $(OBJECTS) -o $@
 	$(SZ) $@
