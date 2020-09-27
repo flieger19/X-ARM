@@ -5,6 +5,17 @@
 #  Created by Constantin Dullo on 25.09.20.
 #
 
+# C sources
+C_SOURCES := \
+	$(shell find $(PROJECT_DIR)/$(PROJECT_NAME)/Core/Src -name '*.c') \
+	$(shell find $(PROJECT_DIR)/$(PROJECT_NAME)/Drivers/$(MCU_FAMILY)_HAL_Driver/Src -name '*.c')
+
+# C++ sources
+CPP_SOURCES := $(shell find $(PROJECT_DIR)/$(PROJECT_NAME)/Core/Src -name '*.cpp')
+
+# ASM sources
+ASM_SOURCES := $(shell find $(PROJECT_DIR)/$(PROJECT_NAME) -name '*.s')
+
 # Additional definitions
 FMODULES_CACHE_PATH = $(HOME)/Library/Developer/Xcode/DerivedData/ModuleCache.noindex
 FBUILD_SESSION_FILE = Session.modulevalidation
