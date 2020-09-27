@@ -7,6 +7,8 @@
 
 include definition.make
 
+include build.make
+
 # default action: build all
 all:
 	echo $(LDFLAGS)
