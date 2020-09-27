@@ -25,6 +25,7 @@ GENERATED_FILES = $(TARGET_TEMP_DIR)/$(PROJECT_NAME)-generated-files.hmap
 OWN_TARGET_HEADERS = $(TARGET_TEMP_DIR)/$(PROJECT_NAME)-own-target-headers.hmap
 ALL_TARGET_HEADERS = $(TARGET_TEMP_DIR)/$(PROJECT_NAME)-all-target-headers.hmap
 PROJECT_HEADERS = $(TARGET_TEMP_DIR)/$(PROJECT_NAME)-project-headers.hmap
+INTERMEDIATE_DIR = $(OBJECT_FILE_DIR)-normal/$(ARCHS)
 
 # binary definitions
 CC = $(TOOLCHAIN_DIR)/usr/bin/clang
