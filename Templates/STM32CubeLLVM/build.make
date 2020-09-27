@@ -31,3 +31,6 @@ $(INTERMEDIATE_DIR)/%.o: %.s Makefile
 $(BUILD_DIR)/$(CONFIGURATION)/$(PROJECT_NAME).elf: $(OBJECTS) Makefile
 	$(CC) $(LDFLAGS) $(OBJECTS) -o $@
 	$(SZ) $@
+
+$(BUILD_DIR)/$(CONFIGURATION)/%.hex: $(BUILD_DIR)/$(CONFIGURATION)/%.elf | $(BUILD_DIR)/$(CONFIGURATION)
+	$(HEX) $< $@
