@@ -9,7 +9,9 @@ include definition.make
 
 include build.make
 
+include upload.make
+
 # default action: build all
-all: build
+all: build upload
 
 include clean.make
