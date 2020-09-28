@@ -11,3 +11,5 @@ include build.make
 
 # default action: build all
 all: build
+
+include clean.make
