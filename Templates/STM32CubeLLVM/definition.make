@@ -31,8 +31,8 @@ INTERMEDIATE_DIR = $(OBJECT_FILE_DIR)-normal/$(ARCHS)
 CC = $(TOOLCHAIN_DIR)/usr/bin/clang
 CXX = $(TOOLCHAIN_DIR)/usr/bin/clang++
 AS = $(TOOLCHAIN_DIR)/usr/bin/clang -x assembler-with-cpp
-CP = $(TOOLCHAIN_DIR)/usr/bin/objcopy
-SZ = $(TOOLCHAIN_DIR)/usr/bin/size
+CP = $(TOOLCHAIN_DIR)/usr/bin/llvm-objcopy
+SZ = $(TOOLCHAIN_DIR)/usr/bin/llvm-size
 
 HEX = $(CP) -O ihex
 BIN = $(CP) -O binary -S
