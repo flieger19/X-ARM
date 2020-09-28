@@ -21,11 +21,14 @@ FMODULES_CACHE_PATH = $(HOME)/Library/Developer/Xcode/DerivedData/ModuleCache.no
 FBUILD_SESSION_FILE = Session.modulevalidation
 INDEX_DIR = $(BUILD_ROOT)/../../Index/
 INDEX_STORE_PATH = $(INDEX_DIR)/DataStore
+TARGET_TEMP_DIR = $(CONFIGURATION_TEMP_DIR)/$(PROJECT_NAME).build
 GENERATED_FILES = $(TARGET_TEMP_DIR)/$(PROJECT_NAME)-generated-files.hmap
 OWN_TARGET_HEADERS = $(TARGET_TEMP_DIR)/$(PROJECT_NAME)-own-target-headers.hmap
 ALL_TARGET_HEADERS = $(TARGET_TEMP_DIR)/$(PROJECT_NAME)-all-target-headers.hmap
 PROJECT_HEADERS = $(TARGET_TEMP_DIR)/$(PROJECT_NAME)-project-headers.hmap
-INTERMEDIATE_DIR = $(OBJECT_FILE_DIR)-normal/$(ARCHS)
+INTERMEDIATE_DIR = $(TARGET_TEMP_DIR)/Objects-normal/$(ARCHS)
+DERIVED_SOURCES_NORMAL = $(TARGET_TEMP_DIR)/DerivedSources-normal
+DERIVED_SOURCES = $(TARGET_TEMP_DIR)/DerivedSources
 
 # binary definitions
 CC = $(TOOLCHAIN_DIR)/usr/bin/clang
@@ -39,6 +42,8 @@ BIN = $(CP) -O binary -S
 
 setup:
 	mkdir -p $(INTERMEDIATE_DIR)
+	mkdir -p $(DERIVED_SOURCES_NORMAL)/$(ARCHS)
+	mkdir -p $(DERIVED_SOURCES)/$(ARCHS)
 
 include ccflags.make
 include ldflags.make
